@@ -29,7 +29,10 @@ This project uses jwt-authorization-query as a template, so you'll see:
 - Authorization stubbed in
 - Styled components
 - Full-stack file structure
-- Some fruits-related stuff you'll need to rip out and replace
+
+Additionally, you are already provided with:
+- Migrations and seeds for the initial tables (don't worry, there will be more to do)
+- Placeholder components
 
 ---
 

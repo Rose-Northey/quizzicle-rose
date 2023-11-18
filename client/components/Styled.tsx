@@ -23,13 +23,29 @@ export const ColTwoField = styled.fieldset`
   flex-wrap: wrap;
 `
 
-export const Button = styled.button`
+export const Button = styled.button<{ $btnColor?: string }>`
+  background-color: var(--${(props) => props.$btnColor});
+  color: var(
+    --${(props) => {
+        console.log(props.$btnColor)
+        if (props.$btnColor == 'cream') {
+          return 'midnight'
+        } else if (props.$btnColor == 'olive') {
+          return 'black'
+        } else {
+          return 'cream'
+        }
+      }}
+  );
+  border: 0;
+  border-radius: 5px;
+  padding: 5px 10px;
   grid-column: 2;
   width: 50%;
 `
 
 export const ErrorMessage = styled.div`
-  color: red;
+  color: var(--berry);
   cursor: pointer;
 `
 interface Props {
@@ -48,15 +64,36 @@ export const RadioLabel = styled.label`
 export const Radio = styled.input.attrs({ type: 'radio' })`
   display: none;
 `
+export const HeaderStyle = styled.header`
+  background-color: var(--midnight);
+  color: var(--cream);
+  width: 100%;
+`
 
-export const NavGroup = styled.nav`
-  float: right;
+export const AuthGroup = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 export const NavLink = styled(Link)`
-  margin-right: 30px;
+  color: var(--cream);
+  text-decoration: underline;
 `
 
-export const NavButton = styled.button`
-  margin-right: 30px;
+export const NavButton = styled.button<{ $btnColor?: string }>`
+  background-color: var(--${(props) => props.$btnColor});
+  color: var(
+    --${(props) => {
+        if (props.$btnColor == 'cream') {
+          return 'midnight'
+        } else if (props.$btnColor == 'olive') {
+          return 'black'
+        } else {
+          return 'cream'
+        }
+      }}
+  );
+  border: 0;
+  border-radius: 5px;
+  padding: 5px 10px;
 `

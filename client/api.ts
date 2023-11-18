@@ -1,82 +1,37 @@
 import request from 'superagent'
-import { Fruit, FruitData } from '../models/fruit.ts'
+import { Quiz, QuizData } from '../models/quiz.ts'
 
 const rootUrl = '/api/v1'
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-export async function getFruits(): Promise<Fruit[]> {
+export async function getQuizzes(): Promise<Quiz[]> {
   await sleep(1500)
 
-  return request
-    .get(`${rootUrl}/fruits`)
-    .then((res) => res.body.fruits)
-    .catch(logError)
-}
-
-interface AddFruitFunction {
-  fruit: FruitData
-  token: string
-}
-export async function addFruit({
-  fruit,
-  token,
-}: AddFruitFunction): Promise<Fruit> {
-  await sleep(1500)
-
-  return request
-    .post(`${rootUrl}/fruits`)
-    .set('Authorization', `Bearer ${token}`)
-    .send({ fruit })
-    .then((res) => res.body.fruit)
-    .catch(logError)
-}
-
-interface UpdateFruitFunction {
-  fruit: Fruit
-  token: string
-}
-export async function updateFruit({
-  fruit,
-  token,
-}: UpdateFruitFunction): Promise<Fruit> {
-  await sleep(1500)
-
-  return request
-    .put(`${rootUrl}/fruits/${fruit.id}`)
-    .set('Authorization', `Bearer ${token}`)
-    .send({ fruit })
-    .then((res) => res.body.fruit)
-    .catch(logError)
-}
-
-interface DeleteFruitFunction {
-  id: number
-  token: string
-}
-export async function deleteFruit({
-  id,
-  token,
-}: DeleteFruitFunction): Promise<void> {
-  await sleep(1500)
-
-  return request
-    .delete(`${rootUrl}/fruits/${id}`)
-    .set('Authorization', `Bearer ${token}`)
-    .then((res) => res.body)
-    .catch(logError)
+  return [
+    {
+      quizId: 1,
+      quizName: 'My First Quiz',
+      lastUpdated: new Date(),
+      isPublic: true,
+    },
+    {
+      quizId: 2,
+      quizName: 'My Second Quiz',
+      lastUpdated: new Date(),
+      isPublic: false,
+      authorId: '1',
+    },
+    {
+      quizId: 3,
+      quizName: 'My Fancy Quiz',
+      lastUpdated: new Date(),
+      isPublic: true,
+      authorId: '2',
+    },
+  ]
 }
 
 function logError(err: Error) {
-  console.log(err)
-  if (err.message === 'Username Taken') {
-    throw new Error('Username already taken - please choose another')
-  } else if (err.message === 'Forbidden') {
-    throw new Error(
-      'Only the user who added the fruit may update and delete it'
-    )
-  } else {
-    console.error('Error consuming the API (in client/api.js):', err.message)
-    throw err
-  }
+  console.error('Error consuming the API (in client/api.js):', err.message)
 }

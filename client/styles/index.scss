@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Forum&family=Nunito+Sans:opsz@6..12&display=swap');
+
+// font-family: 'Forum', serif;
+// font-family: 'Nunito Sans', sans-serif;
+
+:root {
+  --cream: #FFFCE3; // Sufficient contrast with pine, berry, marine, midnight, and black
+  --olive: #738700; // Sufficient contrast with black.
+  --pine: #4c5f02; // Sufficient contrast with cream.
+  --berry: #9f2177; // Sufficient contrast with cream.
+  --marine: #006d9f; // Sufficient contrast with cream.
+  --midnight: #024876; // Sufficient contrast with cream.
+  --black: #000; // Sufficient contrast with olive and cream.
+}
+
+html, 
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background-color: var(--cream);
+  color: var(--midnight);
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Forum', serif;
+  color: var(--pine)
+}
+
+a {
+  color: var(--berry)
+}
+
+main, header > div {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+header {
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  h1 {
+    color: var(--cream);
+    margin: 0;
+    a {
+      color: var(--cream);
+      text-decoration: none;
+    }
+  }
+  button:nth-child(n + 1) {
+    margin-left: 10px;
+  }
+}
