@@ -1,13 +1,19 @@
 import {useState} from 'react'
 import {AddQuiz} from '../api'
+import {useNavigate} from 'react-router-dom'
+
 
 function QuizCreate() {
   const[isPublic, setIsPublic] = useState<boolean>(false)
   const[quizName, setQuizName] = useState<string>('')
+  const navigate = useNavigate()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>)=>{
+
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
     event.preventDefault()
-    AddQuiz({quizName, isPublic})
+    const newQuizId = await AddQuiz({quizName, isPublic})
+    navigate(`/${newQuizId}/add-question`)
   }
 
   const handleNameChange = (event: React.ChangeEvent<HTMLFormElement>) => {
