@@ -4,5 +4,13 @@ import {Quiz} from "../../models/quiz"
 
 export function insertQuestion(quiz_id:number,question:QuestionData){
   console.log(quiz_id,question)
-  return connection('questions').insert({quiz_id,...question}).returning(["quiz_id","question_text","correct_answer","incorrect_answer1","incorrect_answer2","incorrect_answer3"])
+  const snakeQuestion = {
+    quiz_id:question.quizId,
+    question_text: question.questionText,
+    correct_answer: question.correctAnswer,
+    incorrect_answer1: question.incorrectAnswer1,
+    incorrect_answer2: question.incorrectAnswer2,
+    incorrect_answer3: question.incorrectAnswer3
+  }
+  return connection('questions').insert({quiz_id,...snakeQuestion}).returning(["quiz_id","question_text","correct_answer","incorrect_answer1","incorrect_answer2","incorrect_answer3"])
 }

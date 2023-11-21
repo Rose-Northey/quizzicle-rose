@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import {useParams} from 'react-router-dom'
+import {useParams,useNavigate} from 'react-router-dom'
 import { Question } from "../../models/question"
 import { addQuestion } from "../api"
 function QuestionCreate() {
@@ -8,10 +8,19 @@ function QuestionCreate() {
 
   const params = useParams()
   const queryClient  = useQueryClient()
+  const navigate = useNavigate()
   const addQuestionMutation = useMutation({
     mutationFn: addQuestion,
     onSuccess:async()=>{
       queryClient.invalidateQueries(['question'])
+      setText({
+        questionText: "",
+        correctAnswer: "",
+        incorrectAnswer1: "",
+        incorrectAnswer2: "",
+        incorrectAnswer3: ""
+      }as Question)
+      console.log(text)
     }
   })
 
@@ -22,35 +31,41 @@ function QuestionCreate() {
       [key]:e.target.value
     }
     setText(stateObj)
+    console.log(stateObj)
   }
   async function handleSubmit(e){
     e.preventDefault()
     addQuestionMutation.mutate({quiz_id:params.quizId,text})
-    console.log(params)
-    console.log(text)
+    navigate('/')
+   
   }
-  function handleClick(e){
-    
+  function handleMakeAnother(e){
     e.preventDefault()
+    addQuestionMutation.mutate({quiz_id:params.quizId,text})
+    
+  }
+  function handleCancel(e){
+    e.preventDefault()
+    navigate('/')
   }
   return (
     <div >
     <h1>How Will I Know?</h1>
-    <form onSubmit = {handleSubmit}style={{display:'flex',flexDirection:'column'}} action="/questions" method="post">
-    <label htmlFor="question_text">Question</label>
-    <input type="text" value = {text.questionText} id="question_text" required onChange = {handleChange}/>
-    <label htmlFor="correct_answer">Correct answer</label>
-    <input type="text" id = "correct_answer" value = {text.correctAnswer} onChange = {handleChange}/>
-    <label htmlFor="incorrect_answer1"> Incorrect Answer</label>
-    <input type="text" id = "incorrect_answer1" value = {text.incorrectAnswer1} onChange = {handleChange}/>
-    <label htmlFor="incorrect_answer2"> Incorrect Answer</label>
-    <input type="text" id = "incorrect_answer2"  value = {text.incorrectAnswer2} onChange = {handleChange}/>
-    <label htmlFor="incorrect_answer2"> Incorrect Answer</label>
-    <input type="text" id = "incorrect_answer3" value = {text.incorrectAnswer3} onChange = {handleChange}/>
-    <button onClick ={handleClick}>Add and make another</button>
-    <button type = "submit">Add and all done</button>
-    <button >Cancel and exit</button>
+    <form style={{display:'flex',flexDirection:'column'}} method="post">
+    <label htmlFor="questionText">Question</label>
+    <input type="text" value = {text.questionText} id="questionText" required onChange = {handleChange}/>
+    <label htmlFor="correctAnswer">Correct answer</label>
+    <input type="text" id = "correctAnswer" value = {text.correctAnswer} required onChange = {handleChange}/>
+    <label htmlFor="incorrectAnswer1"> Incorrect Answer</label>
+    <input type="text" id = "incorrectAnswer1" value = {text.incorrectAnswer1} required onChange = {handleChange}/>
+    <label htmlFor="incorrectAnswer2"> Incorrect Answer</label>
+    <input type="text" id = "incorrectAnswer2"  value = {text.incorrectAnswer2} required onChange = {handleChange}/>
+    <label htmlFor="incorrectAnswer2"> Incorrect Answer</label>
+    <input type="text" id = "incorrectAnswer3" value = {text.incorrectAnswer3} required onChange = {handleChange}/>
     </form>
+    <button onClick = {handleMakeAnother}>Add and make another</button>
+    <button onClick = {handleSubmit}>Add and all done</button>
+    <button onClick = {handleCancel}>Cancel and exit</button>
     </div>
     
   )
