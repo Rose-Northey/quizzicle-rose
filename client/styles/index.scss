@@ -86,3 +86,19 @@ header {
 .hidden{
   visibility: hidden;
 }
+
+.create button{
+  
+  background-color: var(--marine);
+  padding: 0.8rem;
+  border-radius: 5px;
+  box-shadow: none;
+  border-style: none;
+  color: var(--cream)
+
+}
+
+.create input[type="checkbox" i] {
+  margin:none;
+  border-radius: 0;
+}
