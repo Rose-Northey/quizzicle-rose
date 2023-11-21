@@ -7,7 +7,9 @@ export default function AppLayout() {
     <>
       <Header />
       <main>
-        <h2>Let&apos;s get Quizzicle!</h2>
+        <h2>Create a quiz</h2>
+        <hr></hr>
+        <br></br>
         <Outlet />
       </main>
     </>

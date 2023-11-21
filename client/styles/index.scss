@@ -28,7 +28,11 @@ h1, h2, h3, h4 {
 }
 
 a {
-  color: var(--berry)
+  color: var(--berry);
+}
+
+.ulQuizName a{
+  color: var(--midnight);
 }
 
 main, header > div {
@@ -55,3 +59,19 @@ header {
     margin-left: 10px;
   }
 }
+
+ul.ulQuizName{
+
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+  text-indent: 10px;
+  line-height: 30px;
+  font-size: medium;
+  font-style: bold #024876;
+}
+
+hr{
+  border-top: 2px dashed #024876;
+}
+

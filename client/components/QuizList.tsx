@@ -1,48 +1,58 @@
 import { Quiz, QuizData } from '../../models/quiz.ts'
+import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+// import { useState } from 'react'
+// import { ErrorMessage } from './Styled.tsx'
+// import { useQuizzes } from '../hooks.ts'
+// import { response } from 'express'
+// import { getQuizzes } from '../../server/db/quizzes.ts'
+import { getQuizzes } from '../api.ts'
 
-import { useState } from 'react'
-import { ErrorMessage } from './Styled.tsx'
-import { useQuizzes } from '../hooks.ts'
+//QuizList
+// const getQuizzes = async (Quiz) => {
+//   const response = await get('/api/v1/quizzes')
+//   if (!response.ok) {
+//     throw new Error('Could not get quizzes')
+//   }
+//   return response.json(Quiz)
+// }
 
-function QuizList() {
-  const [error, setError] = useState('')
-  const quizzes = useQuizzes()
+export default function QuizList() {
+  const {
+    data: quiz,
+    isLoading,
+    isError,
+  } = useQuery({ queryKey: ['quiz'], queryFn: getQuizzes })
 
-  const hideError = () => {
-    setError('')
+  // function QuizList() {
+  //   const [error, setError] = useState('')
+  //   const quizzes = useQuizzes()
+
+  //   const hideError = () => {
+  //     setError('')
+  //   }
+
+  if (isLoading) {
+    return <div>Loading... </div>
   }
 
-  if (quizzes.isLoading) {
-    let failures = ''
-    if (quizzes.failureCount > 0) {
-      failures = ` (failed ${quizzes.failureCount} times)`
-    }
-
-    return <div>Loading... {failures}</div>
+  if (isError) {
+    return <div>Broekd!</div>
   }
-
-  let fetchStatus = ''
-  if (quizzes.isRefetching) fetchStatus = 'Refreshing...'
-
-  if (quizzes.error instanceof Error) {
-    return (
-      <ErrorMessage>
-        Failed to load quizzes: {quizzes.error.message}
-      </ErrorMessage>
-    )
-  }
-
+  console.log(quiz)
   return (
     <>
-      {error !== '' && (
-        <ErrorMessage onClick={hideError}>Error: {error}</ErrorMessage>
-      )}
-      {fetchStatus !== '' && <div>{fetchStatus}</div>}
-      {quizzes.status === 'success' && (
-        <pre>{JSON.stringify(quizzes.data, null, 2)}</pre>
-      )}
+      <div className="ulQuizName">
+        <ul className="ulQuizName">
+          {quiz.map((quizzes: Quiz) => {
+            return (
+              <li key={quizzes.quizId}>
+                <Link to={`/${quizzes.quizId}`}>{quizzes.quizName}</Link>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
     </>
   )
 }
-
-export default QuizList
