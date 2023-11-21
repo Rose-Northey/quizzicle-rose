@@ -1,6 +1,15 @@
 function QuizResult() {
-  return <>This component will show the results of your quiz</>
-}
+ 
+  
+ 
+ 
+///all variables below this point are filler only. Do not use
+ return (
+  <div>
+    <h1>{`${quizId}`}</h1>
+    <p>You answered {`${correct}`} out of {`${totalQuestions}`} questions correctly and scored {`${calcAmount}`}%</p>
+  </div>
+)}
 
 export default QuizResult
 //get correct_answer
