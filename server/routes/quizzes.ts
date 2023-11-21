@@ -10,11 +10,8 @@ router.get('/', async (req, res) => {
 
 
 // GET /api/v1/quizzes/new
-router.post('/new', async (req,res)=>{
+router.post('/', async (req,res)=>{
   const {quizName, isPublic} = req.body
-  if (!quizName){
-    res.status(400).send('Oops, a quiz must have a name!')
-  }
   const newQuizEntry = { 
     quizName,
     lastUpdated: new Date(),
@@ -22,7 +19,9 @@ router.post('/new', async (req,res)=>{
   }
   try{
     const newQuizData = await addNewQuiz(newQuizEntry)
-    res.status(200).json(newQuizData)
+    const id = newQuizData[0].quiz_id
+    res.status(200).json(id)
+    
   }catch(error){
     console.log(error)
     res.status(500).send('could not add new quiz')
