@@ -2,8 +2,8 @@ import express from 'express'
 import * as Path from 'node:path'
 import * as URL from 'node:url'
 
-import quizRoutes from './routes/quizzes.ts'
-import questionRoutes from './routes/questions.ts'
+import quizRoutes from './routes/quizzes'
+import questionRoutes from './routes/questions'
 
 const __filename = URL.fileURLToPath(import.meta.url)
 const __dirname = Path.dirname(__filename)
