@@ -38,6 +38,7 @@ function logError(err: Error) {
 
 export async function AddQuiz({quizName, isPublic}:{quizName:string, isPublic: boolean}){
   const httpRequestObject = await request.post(`${rootUrl}/quizzes`).send({quizName, isPublic})
+  console.log("yep, its called")
   const newQuizId =  httpRequestObject.body
   return newQuizId
 }

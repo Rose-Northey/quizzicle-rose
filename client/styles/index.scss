@@ -55,3 +55,24 @@ header {
     margin-left: 10px;
   }
 }
+
+
+
+.vflex{
+  display: flex;
+  flex-direction: column;
+
+}
+
+.nameInput{
+  width: 50%;
+  margin-top: 0.3rem;
+}
+
+.vflex button{
+  align-self: flex-start;
+}
+
+.create button, .create label{
+  margin: 0.5rem;
+}
