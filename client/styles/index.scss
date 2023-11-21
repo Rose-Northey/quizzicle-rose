@@ -76,3 +76,13 @@ header {
 .create button, .create label{
   margin: 0.5rem;
 }
+
+.error{
+  margin: 0.2rem;
+  font-size: small;
+  color: var(--berry)
+}
+
+.hidden{
+  visibility: hidden;
+}
