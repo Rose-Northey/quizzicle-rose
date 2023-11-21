@@ -37,9 +37,8 @@ function logError(err: Error) {
 }
 
 //adding question
-const url = '/api/v1/:quizId/add-question'
-export async function addQuestion(quiz_id:number,question:QuestionData){
-  const response = await request.post(url).send(quiz_id,question)
-  console.log(response)
+export async function addQuestion({quiz_id,text}){
+  const response = await request.post(`/api/v1/questions/${quiz_id}/add-question`).send(text)
+  
   return response
 }

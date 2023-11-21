@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {useParams} from 'react-router-dom'
 import { Question } from "../../models/question"
 import { addQuestion } from "../api"
@@ -21,12 +21,13 @@ function QuestionCreate() {
       ...text,
       [key]:e.target.value
     }
-    console.log(text)
     setText(stateObj)
   }
   async function handleSubmit(e){
     e.preventDefault()
-    addQuestionMutation.mutate({params,text})
+    addQuestionMutation.mutate({quiz_id:params.quizId,text})
+    console.log(params)
+    console.log(text)
   }
   function handleClick(e){
     
@@ -35,9 +36,9 @@ function QuestionCreate() {
   return (
     <div >
     <h1>How Will I Know?</h1>
-    <form onSubmit = {handleSubmit}style={{display:'flex',flexDirection:'column'}}action="/" method="post">
-    <label htmlFor="question">Question</label>
-    <input type="text" value = {text.questionText} id="question" required onChange = {handleChange}/>
+    <form onSubmit = {handleSubmit}style={{display:'flex',flexDirection:'column'}} action="/questions" method="post">
+    <label htmlFor="question_text">Question</label>
+    <input type="text" value = {text.questionText} id="question_text" required onChange = {handleChange}/>
     <label htmlFor="correct_answer">Correct answer</label>
     <input type="text" id = "correct_answer" value = {text.correctAnswer} onChange = {handleChange}/>
     <label htmlFor="incorrect_answer1"> Incorrect Answer</label>
@@ -48,7 +49,7 @@ function QuestionCreate() {
     <input type="text" id = "incorrect_answer3" value = {text.incorrectAnswer3} onChange = {handleChange}/>
     <button onClick ={handleClick}>Add and make another</button>
     <button type = "submit">Add and all done</button>
-    <button>Cancel and exit</button>
+    <button >Cancel and exit</button>
     </form>
     </div>
     
