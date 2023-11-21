@@ -10,7 +10,7 @@ export async function getQuizzes(): Promise<Quiz[]> {
 export async function addNewQuiz(quizData: QuizData):Promise<Quiz>{
   await db('quizzes').insert(
     {"quiz_name": quizData.quizName,
-    "last_updated": new Date(),
+    "last_updated": quizData.lastUpdated,
     "is_public": quizData.isPublic}
   )
 }
