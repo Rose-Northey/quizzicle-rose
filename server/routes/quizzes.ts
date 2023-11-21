@@ -13,18 +13,18 @@ router.get('/:quiz_id', async (req, res) => {
   const id = Number(req.params.quiz_id)
 
   try {
-    const quizData =  await db.getSingleQuizQuestions(id)
-
-    quizData.map(v => ({...v, answers: []}))
-
-    quizData[0].keys(a => {
-      if (a.includes('answer')){
-        quizData[0].answers.push(a)
-      }
+    const quizDBData =  await db.getSingleQuizQuestions(id)
+      const quizData = quizDBData.map(element => {
+        const revisedQuestion = {...element, answers: []}
+          Object.keys(element).forEach(key => {
+            if (key.match('answer')){
+              revisedQuestion.answers.push(element[key])
+              delete revisedQuestion[key]
+            }
+        })
+       return revisedQuestion
     })
-
     console.log(quizData)
-
     res.json({quizData})
   } catch (error){
     console.log(error)

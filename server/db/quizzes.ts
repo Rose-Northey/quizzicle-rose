@@ -11,4 +11,5 @@ export async function getSingleQuizQuestions(id: number): Promise<QuestionSnakeC
     .join('quizzes', 'quizzes.quiz_id', 'questions.quiz_id' )
     .where('questions.quiz_id', id)
     .select('quizzes.quiz_name', 'questions.quiz_id', 'questions.question_id', 'questions.question_text', 'questions.correct_answer', 'questions.incorrect_answer1', 'questions.incorrect_answer2', 'questions.incorrect_answer3')
+
 }
