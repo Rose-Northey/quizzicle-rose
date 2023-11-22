@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { Quiz, QuizData } from '../models/quiz.ts'
+import { Quiz} from '../models/quiz.ts'
 
 const rootUrl = '/api/v1'
 
@@ -34,4 +34,10 @@ export async function getQuizzes(): Promise<Quiz[]> {
 
 function logError(err: Error) {
   console.error('Error consuming the API (in client/api.js):', err.message)
+}
+
+//adding question
+export async function addQuestion({quiz_id,text}){
+  const response = await request.post(`${rootUrl}/questions/${quiz_id}/add-question`).send(text)
+  return response
 }
