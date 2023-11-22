@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
 })
 
 
-// GET /api/v1/quizzes
+// POST /api/v1/quizzes
 router.post('/', async (req,res)=>{
   const {quizName, isPublic} = req.body
   const newQuizEntry = { 
