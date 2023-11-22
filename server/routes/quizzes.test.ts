@@ -23,6 +23,13 @@ describe('post of a new quiz name and isPublic', ()=>{
     expect(res.body).toBe(4)
   
   })
-
-
+  it('throws an error if the database fails'), async()=>{
+    vi.mocked(db.addNewQuiz).mockImplementation(async()=>{
+      throw new Error('Database error');
+    })
+    
+    const res = await request(server).post('/api/v1/quizzes')
+    expect(res.statusCode).toBe(500);
+    
+  }
 })
