@@ -6,10 +6,9 @@ const rootUrl = '/api/v1'
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-export async function getSingleQuiz(id:string): Promise<Question[]> {
+export async function getSingleQuiz(id: string): Promise<Question[]> {
   await sleep(1500)
   const res = await request.get(rootUrl + '/quizzes/' + id)
-  console.log(res.body)
   return res.body
 }
 

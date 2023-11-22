@@ -16,6 +16,7 @@ export interface Question {
   incorrectAnswer1: string
   incorrectAnswer2?: string
   incorrectAnswer3?: string
+  answers: string[]
 }
 
 export interface QuestionData {

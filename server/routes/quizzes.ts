@@ -17,15 +17,14 @@ router.get('/:quiz_id', async (req, res) => {
       const quizData = quizDBData.map(element => {
         const revisedQuestion = {...element, answers: []}
           Object.keys(element).forEach(key => {
-            if (key.match('answer')){
+            if (key.match('Answer')){
               revisedQuestion.answers.push(element[key])
               delete revisedQuestion[key]
             }
         })
        return revisedQuestion
     })
-    console.log(quizData)
-    res.json({quizData})
+    res.json(quizData)
   } catch (error){
     console.log(error)
     res.status(500).json({ message: 'Rats! Somthing went wrong!' })
