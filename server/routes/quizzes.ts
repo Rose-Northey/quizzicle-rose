@@ -7,7 +7,6 @@ const router = express.Router()
 router.get('/', async (req, res) => {
   try {
     const quizzes = await db.getQuizzes()
-    console.log('List', quizzes)
     res.json(quizzes)
   } catch (err) {
     console.log(err)
