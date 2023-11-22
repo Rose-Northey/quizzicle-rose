@@ -1,6 +1,13 @@
 function QuizResult() {
  
-  
+const correctCheck = arr.map(id => {
+  id.answer
+  let score = [0]
+    if (id.answer === correct){
+      score++
+    }
+  else 
+  })
  
  
 ///all variables below this point are filler only. Do not use
