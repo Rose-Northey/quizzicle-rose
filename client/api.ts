@@ -38,3 +38,10 @@ export async function getQuizzes() {
 function logError(err: Error) {
   console.error('Error consuming the API (in client/api.js):', err.message)
 }
+
+export async function AddQuiz({quizName, isPublic}:{quizName:string, isPublic: boolean}){
+  const httpRequestObject = await request.post(`${rootUrl}/quizzes`).send({quizName, isPublic})
+
+  const newQuizId =  httpRequestObject.body
+  return newQuizId
+}

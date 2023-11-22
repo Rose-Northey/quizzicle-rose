@@ -2,10 +2,20 @@ import { Route, createRoutesFromElements } from 'react-router-dom'
 
 import AppLayout from './components/AppLayout.tsx'
 import QuizList from './components/QuizList.tsx'
+<<<<<<< HEAD
+=======
+
+>>>>>>> issue5
 import QuizCreate from './components/QuizCreate.tsx'
 import Quiz from './components/Quiz.tsx'
 import QuestionCreate from './components/QuestionCreate'
 import QuizResult from './components/QuizResult'
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> issue5
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />}>
     <Route index element={<QuizList />} />
