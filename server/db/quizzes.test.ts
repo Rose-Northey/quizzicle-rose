@@ -1,4 +1,4 @@
-import { expect, it, test, describe, expectTypeOf, beforeAll, beforeEach } from 'vitest'
+import { expect, it, test, describe, expectTypeOf, beforeAll, beforeEach, afterAll } from 'vitest'
 import {addNewQuiz} from './quizzes'
 import connection from './connection'
 
@@ -16,8 +16,13 @@ describe( 'addNewQuiz', ()=> {
     isPublic: false
   }
 
-  it('adds a new quiz to the quizzes database', async()=>{
+  it('adds a new row to the quizzes database', async()=>{
     const newQuizId = await addNewQuiz(quizData)
     expect(newQuizId).toEqual([{"quiz_id":4}])
   })
+
+})
+
+afterAll(() => {
+  return connection.destroy()
 })
