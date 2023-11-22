@@ -1,11 +1,10 @@
 import connection from "../db/connection"
 import { QuestionData } from "../../models/question"
-import {Quiz} from "../../models/quiz"
+
 
 export function insertQuestion(quiz_id:number,question:QuestionData){
   console.log(quiz_id,question)
   const snakeQuestion = {
-    quiz_id:question.quizId,
     question_text: question.questionText,
     correct_answer: question.correctAnswer,
     incorrect_answer1: question.incorrectAnswer1,

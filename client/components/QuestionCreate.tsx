@@ -20,7 +20,6 @@ function QuestionCreate() {
         incorrectAnswer2: "",
         incorrectAnswer3: ""
       }as Question)
-      console.log(text)
     }
   })
 
@@ -31,13 +30,12 @@ function QuestionCreate() {
       [key]:e.target.value
     }
     setText(stateObj)
-    console.log(stateObj)
   }
   async function handleSubmit(e){
     e.preventDefault()
     addQuestionMutation.mutate({quiz_id:params.quizId,text})
     navigate('/')
-   
+  
   }
   function handleMakeAnother(e){
     e.preventDefault()
