@@ -73,6 +73,8 @@ ul.ulQuizName {
 }
 
 nav {
+  max-width: 920px;
+  margin: 0 auto;
   display: flex;
   a {
     text-decoration: none;
