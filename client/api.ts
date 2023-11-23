@@ -49,6 +49,6 @@ export async function addQuestion({quiz_id,text}:addQuestionParams){
 //get specific id for quiz
 export async function getQuizName(quizId:string|undefined){
   const response = await request.get(`${rootUrl}/quizzes/${quizId}`)
-  console.log("api",response.body)
+
   return response.body.quiz_name
 }

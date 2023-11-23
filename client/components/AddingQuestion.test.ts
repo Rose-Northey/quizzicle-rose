@@ -1,16 +1,9 @@
 // @vitest-environment jsdom
-import { describe, it, test, expect, vi } from 'vitest'
+import { describe, it , expect } from 'vitest'
 import nock from 'nock'
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react/pure'
+import { screen } from '@testing-library/react/pure'
 import { renderApp } from '../tests/setup.js'
 import '../tests/setup.js'
-
-// no import of apiClient
-// no `vi.mock('...')`
 
 describe('the add question form', () => {
   it('has an input for questions', () => {

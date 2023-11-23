@@ -12,6 +12,6 @@ export default router
 router.get('/:id', async(req,res)=>{
   const quizId = Number(req.params.id)
   const response = await getQuizNameById(quizId)
-  console.log("asdf",response)
+
   res.json(response)
 })

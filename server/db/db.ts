@@ -3,7 +3,7 @@ import { QuestionData } from "../../models/question"
 
 
 export function insertQuestion(quiz_id:number,question:QuestionData){
-  console.log(quiz_id,question)
+ 
   const snakeQuestion = {
     question_text: question.questionText,
     correct_answer: question.correctAnswer,

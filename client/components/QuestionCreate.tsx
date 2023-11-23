@@ -15,7 +15,8 @@ function QuestionCreate() {
     return await getQuizName(params.quizId)
   }})
 
-
+  
+  
   
   const queryClient  = useQueryClient()
   const navigate = useNavigate()
@@ -33,7 +34,13 @@ function QuestionCreate() {
     }
   })
 
-  function handleChange(e){
+  if(isLoading){
+    return "Loading..."
+  }
+  if(error){
+    return "Status Code 500: Internal Server Error"
+  }
+  function handleChange(e: { target: { id: string; value: string } }){
     const key = e.target.id
     const stateObj = {
       ...text,
@@ -41,18 +48,18 @@ function QuestionCreate() {
     }
     setText(stateObj)
   }
-  async function handleSubmit(e){
+  async function handleSubmit(e: { preventDefault: () => void }){
     e.preventDefault()
     addQuestionMutation.mutate({quiz_id:params.quizId,text})
     navigate('/')
   
   }
-  function handleMakeAnother(e){
+  function handleMakeAnother(e: { preventDefault: () => void }){
     e.preventDefault()
     addQuestionMutation.mutate({quiz_id:params.quizId,text})
     
   }
-  function handleCancel(e){
+  function handleCancel(e: { preventDefault: () => void }){
     e.preventDefault()
     navigate('/')
   }

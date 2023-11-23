@@ -9,8 +9,8 @@ router.get('/', async (req, res) => {
 router.post('/:quizId/add-question', async (req,res)=>{
   try{
     const newQuestion = req.body
-    const quizId = Number(req.params.quizId)
-    const response = await insertQuestion(quizId,newQuestion)
+    const id = Number(req.params.quizId)
+    const response = await insertQuestion(id,newQuestion)
     res.status(200).send(response)
   }catch(e){
     res.status(500).send('Could not add Question')
