@@ -1,5 +1,3 @@
-import { Quiz, QuizData } from '../../models/quiz.ts'
-
 import { useState } from 'react'
 import { ErrorMessage } from './Styled.tsx'
 import { useQuizzes } from '../hooks.ts'
