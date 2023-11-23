@@ -19,7 +19,7 @@ function QuestionCreate() {
         incorrectAnswer1: "",
         incorrectAnswer2: "",
         incorrectAnswer3: ""
-      }as Question)
+      } as Question)
     }
   })
 
@@ -51,7 +51,7 @@ function QuestionCreate() {
     <h1>How Will I Know?</h1>
     <form style={{display:'flex',flexDirection:'column'}} method="post">
     <label htmlFor="questionText">Question</label>
-    <input type="text" value = {text.questionText} id="questionText" required onChange = {handleChange}/>
+    <input type="text" className="fun" value = {text.questionText} id="questionText" required onChange = {handleChange}/>
     <label htmlFor="correctAnswer">Correct answer</label>
     <input type="text" id = "correctAnswer" value = {text.correctAnswer} required onChange = {handleChange}/>
     <label htmlFor="incorrectAnswer1"> Incorrect Answer</label>
