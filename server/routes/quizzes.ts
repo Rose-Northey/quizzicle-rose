@@ -1,11 +1,16 @@
 import express from 'express'
-import { addNewQuiz, getQuizNameById } from '../db/quizzes'
+import * as db from '../db/quizzes.ts'
 
 const router = express.Router()
 
 // GET /api/v1/quizzes
 router.get('/', async (req, res) => {
-  res.json({})
+  try {
+    const quizzes = await db.getQuizzes()
+    res.json(quizzes)
+  } catch (err) {
+    res.status(500).send('Could not get Quizzes')
+  }
 })
 
 // POST /api/v1/quizzes
@@ -17,7 +22,8 @@ router.post('/', async (req: express.Request, res: express.Response) => {
     isPublic,
   }
   try {
-    const newQuizData = await addNewQuiz(newQuizEntry)
+    const newQuizData = await db.addNewQuiz(newQuizEntry)
+
     const id = newQuizData[0].quiz_id
     res.status(200).json(id)
   } catch (error) {
@@ -26,11 +32,11 @@ router.post('/', async (req: express.Request, res: express.Response) => {
   }
 })
 
-export default router
-
 router.get('/:id', async(req,res)=>{
   const quizId = Number(req.params.id)
-  const response = await getQuizNameById(quizId)
+  const response = await db.getQuizNameById(quizId)
 
   res.json(response)
 })
+
+export default router

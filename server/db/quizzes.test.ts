@@ -1,5 +1,5 @@
 import { expect, it, describe, beforeAll, beforeEach, afterAll } from 'vitest'
-import { addNewQuiz } from './quizzes'
+import { addNewQuiz, getQuizzes } from './quizzes'
 import connection from './connection'
 
 beforeAll(() => {
@@ -7,6 +7,27 @@ beforeAll(() => {
 })
 beforeEach(() => {
   return connection.seed.run()
+})
+
+describe('getQuizzes', () => {
+  const quizObjectArray = [
+    {
+      quizId: 1,
+      quizName: 'My First Quiz',
+    },
+    {
+      quizId: 2,
+      quizName: 'My Second Quiz',
+    },
+    {
+      quizId: 3,
+      quizName: 'My Fancy Quiz',
+    },
+  ]
+  it('displays list of quizzes', async () => {
+    const quizList = await getQuizzes()
+    expect(quizList).toEqual(quizObjectArray)
+  })
 })
 
 describe('addNewQuiz', () => {
