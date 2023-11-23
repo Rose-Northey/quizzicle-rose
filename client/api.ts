@@ -35,3 +35,14 @@ export async function getQuizzes(): Promise<Quiz[]> {
 function logError(err: Error) {
   console.error('Error consuming the API (in client/api.js):', err.message)
 }
+
+// const getScore = async () => {
+//   const data = await server.get('')
+//   return data
+// }
+
+export async function getAnswers() {
+  const response = await request.get('/api/v1/results')
+
+  return response.body as Answers[]
+}

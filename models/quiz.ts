@@ -20,3 +20,8 @@ export interface QuizData {
   isPublic: boolean
   authorId?: string
 }
+
+export interface Answers {
+  questionId: number
+  correctAnswer: string
+}
