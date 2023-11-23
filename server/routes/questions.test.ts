@@ -1,12 +1,12 @@
 import { describe, expect, it, test, vi } from 'vitest'
 import server from '../server.ts'
-import * as db from '../db/db.ts'
+import * as db from '../db/questionsDb'
 import request from 'supertest'
 
 
 
 vi.mock('../db/db')
-describe('Test if question is successfully added',()=>{
+describe('POST /api/v1/questions/:quizId/add-question',()=>{
   it('it returns status code 200 if question is successfully added', async ()=>{
     //Arrange
    
