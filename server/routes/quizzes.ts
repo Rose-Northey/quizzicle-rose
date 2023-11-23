@@ -1,5 +1,5 @@
 import express from 'express'
-import { getQuizNameById } from '../db/db'
+import { getQuizNameById } from '../db/quizzes'
 const router = express.Router()
 
 // GET /api/v1/quizzes
