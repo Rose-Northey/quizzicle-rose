@@ -20,3 +20,9 @@ export interface QuizData {
   isPublic: boolean
   authorId?: string
 }
+
+export interface NewQuizEntry {
+  quizName: string
+  lastUpdated: Date
+  isPublic: boolean
+}

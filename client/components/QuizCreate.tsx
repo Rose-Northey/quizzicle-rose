@@ -7,7 +7,6 @@ function QuizCreate() {
   const [quizName, setQuizName] = useState<string>('')
 
   const navigate = useNavigate()
-  //when quizName is "", there is a p element under the form which is set to no class, when the quiz name is not "", it disappears by setting the class name to "hidden"
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
