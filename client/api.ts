@@ -1,11 +1,11 @@
 import request from 'superagent'
 import { Quiz } from '../models/quiz.ts'
 
-const rootUrl = '/api/v1/'
+const rootUrl = '/api/v1'
 
 export async function getQuizzes() {
   try {
-    const response = await request.get(rootUrl + 'quizzes')
+    const response = await request.get(rootUrl + '/quizzes')
     return response.body as Quiz[]
   } catch (err) {
     logError(err as Error)
