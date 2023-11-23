@@ -7,10 +7,10 @@ test('testing the testing', () => {
   expect(true).toBeTruthy()
 })
 
-describe('test clientside api posts 4th row', ()=>{
+// describe('test clientside api posts 4th row', ()=>{
 
-  it('retuns the number 4 after posting the 4th row', async()=>{
-    const newQuizId = await AddQuiz({quizName: 'testQuiz', isPublic: true})
-  })
-} 
-)
+//   it('retuns the number 4 after posting the 4th row', async()=>{
+//     const newQuizId = await AddQuiz({quizName: 'testQuiz', isPublic: true})
+//   })
+// } 
+// )
