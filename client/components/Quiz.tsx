@@ -5,7 +5,23 @@ import { Question } from '../../models/question'
 import { Routes, Route, useParams } from 'react-router-dom'
 import { Radio } from './Styled'
 
+interface SelectedAnswer {
+  questionId: string
+  selectedAnswer: string
+}
+
 function Quiz() {
+  const [selectedAnswer, setSelectedAnswers] = useState({} as SelectedAnswer[])
+  // selectedAnswer = {quizId: quizData[0].quizId}
+
+  console.log(selectedAnswer)
+
+  const handleRadioOption1 = (evt) => {
+    const answer = evt.target.value
+    const questionNumber = evt.target.id
+
+    setSelectedAnswers({ ...selectedAnswer, [questionNumber]: answer })
+  }
 
   const { quizId } = useParams()
 
@@ -26,42 +42,40 @@ function Quiz() {
   if (!quizData || isLoading) {
     return <p>Loading...</p>
   }
-  console.log(quizData)
-  // 2. create state for newScares
+  const handleSubmit = async (evt: React.ChangeEvent<HTMLFormElement>) => {
+    evt.preventDefault()
+    if (Object.keys(selectedAnswer).length < quizData.length) {
+      try {
+        // Make a POST request to the specified endpoint
+        const response = await fetch(`${quizData[0].quizId}/my-result`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(selectedAnswer),
+        })
 
-  // const [newResult, setNewResult] = useState({
-  //   question1: false,
-  //   question2: false,
-  //   question3: false,
-  // })
-
-   // 3. handle type function create const for key and new StateObject (copt newResult add key and value pair) and setNewResult to state obj
-
-  //  const handleChange = (evt) => {
-  //   const key = evt.target.id
-  //   const stateObj = {
-  //     ...newResult,
-  //     [key]: evt.target.value,
-  //   }
-  //   setNewResult(stateObj)
-  // }
-   // 4. handle submit should prevent default set scares to copy scares and add newScare and reset newScares
-  //  const handleSubmit = (evt) => {
-  //   evt.preventDefault()
-  //   // setResult([...scares, newScare])
-  //   setNewResult({
-  //     question1: false,
-  //     question2: false,
-  //     question3: false,
-  //   })
-  // }
+        // Check if the request was successful (status code 2xx)
+        if (response.ok) {
+          console.log('Successfully submitted answers')
+          // Optionally, you can do something after a successful submission
+        } else {
+          // Handle errors, e.g., log the error or show a user-friendly message
+          console.error('Failed to submit answers:', response.statusText)
+        }
+      } catch (error) {
+        console.error('An error occurred during submission:', error)
+      }
+    }
+  }
   // add onchange and values for each field on form
+  console.log(quizData)
   return (
     <>
       <div>
         <h1>{quizData[0].quizName}</h1>
-        {/* <form submit={handleSubmit}> */}
-        <form onSubmit={'hi'}>
+
+        <form onSubmit={handleSubmit}>
           <ol>
             {quizData.map((question: Question) => {
               return (
@@ -73,10 +87,10 @@ function Quiz() {
                         <input
                           key={answer}
                           type="radio"
-                          id="1"
+                          id={`${question.questionId}`}
                           name={question.questionText}
                           value={answer}
-                          // onChange={e => setIsCorrect(e.target.value)}
+                          onChange={handleRadioOption1}
                         ></input>
                         <label>{answer}</label>
                         <br />
