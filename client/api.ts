@@ -36,13 +36,54 @@ function logError(err: Error) {
   console.error('Error consuming the API (in client/api.js):', err.message)
 }
 
-// const getScore = async () => {
-//   const data = await server.get('')
-//   return data
-// }
+export async function getAnswers(quizId: number) {
+  const userAnswers = {
+    1: 'incorrect answer3',
+    2: 'incorrect answer1',
+    3: 'correct answer',
+  }
+  const HTMLObject = await request.get(`${rootUrl}/questions/quiz/${quizId}`)
+  const correctAnswers = HTMLObject.body
 
-export async function getAnswers() {
-  const response = await request.get('/api/v1/results')
+  const formattedCorrectAnswers = correctAnswers.map((object) => {
+    return object.correctAnswer
+  })
 
-  return response.body as Answers[]
+  let score = 0
+  let questionCount = 0
+
+  const formattedUserAnswers = Object.values(userAnswers)
+
+  formattedCorrectAnswers.map((correctAnswer, index) => {
+    questionCount++
+    if (correctAnswer === formattedUserAnswers[index]) {
+      score++
+    }
+  })
+  const resultObj = { score, questionCount }
+  // console.log(resultObj)
+  return resultObj
 }
+
+// {1: 'incorrect answer3', 2: 'incorrect answer1', 3: 'correct answer'}
+
+// //[
+// 	{
+// 		"questionId": 1,
+// 		"correctAnswer": "correct answer"
+// 	},
+// 	{
+// 		"questionId": 2,
+// 		"correctAnswer": "correct answer"
+// 	},
+// 	{
+// 		"questionId": 3,
+// 		"correctAnswer": "correct answer"
+// 	}
+// ]
+
+//get the data into an array of only the correct andswer and only the user selected answer
+
+//use a map function and use the index to compare each item in the array
+
+//if they are the same, increase a score by 1

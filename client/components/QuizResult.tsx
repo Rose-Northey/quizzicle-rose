@@ -1,26 +1,38 @@
 //import thingy
 import { useQuery } from '@tanstack/react-query'
 import server from '../../server/server'
+import { useFetcher, useParams } from 'react-router-dom'
+import { getAnswers } from '../api'
+import { useEffect, useState } from 'react'
 
 function QuizResult() {
-  //make useQuery
-  const getScore = async () => {
-    const data = await server.get('api/:quizId/my-result')
-    return data
-  }
-  const score = 0
-  //https://dev.to/abeinevincent/data-fetching-from-an-api-using-react-query-usequery-hook-explained-in-plain-english-4eei
+  const quizId = Number(useParams().quizId)
+ 
 
-  //all variables below this point are filler only. Do not use
+  const [results, setResults] = useState({})
+
+  useEffect(() => {
+    async function fetchResults() {
+      const resultsFromApi = await getAnswers(quizId)
+
+      setResults(resultsFromApi)
+    }
+    fetchResults(quizId)
+  }, [])
+  console.log(results?.score)
+
   return (
     <div>
-      <h1>{`${quizId}`}</h1>
+      <h1>Quiz Results</h1>
       <p>
-        You answered {`${score}`} out of {`${totalQuestions}`} questions
-        correctly and scored {`${calcAmount}`}%
+        You answered {`${results.score}`} out of {`${results.questionCount}`}{' '}
+        questions correctly and scored{' '}
+        {`${(100 * Number(results.score)) / Number(results.question)}`}%
       </p>
     </div>
   )
 }
 
 export default QuizResult
+
+// {score: 1, questionCount: 3}
