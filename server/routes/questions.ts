@@ -7,18 +7,19 @@ const router = express.Router()
 router.get('/', async (req, res) => {
   res.json({})
 })
-// GET /api/v1/results
-router.get('/results/:id', async (req, res) => {
-  console.log('do the thing')
-  const quizId = parseInt(req.params.id)
+// GET /api/v1/questions/quiz/:quizId
+router.get('/quiz/:quizId', async (req, res) => {
+  // console.log('do the thing')
+  const quizId = parseInt(req.params.quizId)
   if (isNaN(quizId)) {
     res.status(400).send('Bad Request: Quiz ID must be a number')
     return
   }
 
   try {
-    const answers = getCorrectAnswersByQuizId(quizId)
-    
+    const answers = await getCorrectAnswersByQuizId(quizId)
+    console.log(answers)
+
     if (!answers) {
       res.sendStatus(404)
       return
@@ -30,6 +31,4 @@ router.get('/results/:id', async (req, res) => {
   }
 })
 
-
 export default router
-
