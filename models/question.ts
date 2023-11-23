@@ -20,7 +20,7 @@ export interface Question {
 }
 
 export interface QuestionData {
-  quizId: number
+
   questionText: string
   correctAnswer: string
   incorrectAnswer1: string

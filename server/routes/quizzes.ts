@@ -1,7 +1,6 @@
 import express from 'express'
-
 import * as db from '../db/quizzes.ts'
-import { addNewQuiz } from '../db/quizzes'
+import { addNewQuiz, getQuizNameById } from '../db/quizzes'
 
 const router = express.Router()
 
@@ -51,3 +50,10 @@ router.post('/', async (req: express.Request, res: express.Response) => {
 })
 
 export default router
+
+router.get('/:id', async(req,res)=>{
+  const quizId = Number(req.params.id)
+  const response = await getQuizNameById(quizId)
+
+  res.json(response)
+})

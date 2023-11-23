@@ -7,12 +7,11 @@ import {
   beforeEach,
   afterAll,
 } from 'vitest'
-import { getSingleQuizQuestions } from './quizzes'
-import connection from './connection'
+import connection from '../db/connection.ts'
 import { QuestionData, QuestionSnakeCase } from '../../models/question'
+
+import server from '../server.ts'
 import request from 'supertest'
-import server from '../server'
-// import { JSDOM } from 'jsdom'
 import * as db from '../db/quizzes'
 
 beforeAll(() => {

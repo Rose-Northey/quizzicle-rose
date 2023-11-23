@@ -1,4 +1,6 @@
 import request from 'superagent'
+import { Quiz} from '../models/quiz.ts'
+import { Question } from '../models/question.ts'
 
 import { Question } from '../models/question'
 import { Quiz, QuizData } from '../models/quiz'
@@ -62,4 +64,20 @@ export async function getQuizzes(): Promise<Quiz[]> {
       authorId: '2',
     },
   ]
+}
+interface addQuestionParams {
+  quiz_id:undefined|string
+  text:Question
+}
+//adding question
+export async function addQuestion({quiz_id,text}:addQuestionParams){
+  const response = await request.post(`${rootUrl}/questions/${quiz_id}/add-question`).send(text)
+  return response
+}
+
+//get specific id for quiz
+export async function getQuizName(quizId:string|undefined){
+  const response = await request.get(`${rootUrl}/quizzes/${quizId}`)
+
+  return response.body.quiz_name
 }
