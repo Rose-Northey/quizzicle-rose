@@ -27,18 +27,17 @@ function QuizCreate() {
     <>
       <div className="create">
         <form className="vflex" onSubmit={handleSubmit}>
-          <label className="vflex">
-            Quiz name
+          <label htmlFor="quiz name" className="vflex">
+            Quiz name</label>
             <input
               className="nameInput"
               type="text"
               name={quizName}
-              id={quizName}
+              id="quiz name"
               onChange={handleNameChange}
               required
             />
             <p className={quizName === ''?'error':'error hidden'} >Field is required</p>
-          </label>
 
 
           <label>

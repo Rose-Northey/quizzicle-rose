@@ -14,16 +14,22 @@ describe('create new quiz form', () => {
   it('has an input to add quiz name', () => {
     renderApp('/create')
     const label = screen.getByLabelText('Quiz name')
-    expect(label).toMatchInlineSnapshot()
+    expect(label).toBeVisible()
   })
-//   it('can be filled in and submitted', async () => {
-//     const scope = nock('http://localhost')
-//     .post('/api/v1/questions/1/add-question')
-//     .reply(200, [])
-//     const {user} = renderApp('/1/add-question')
-//     const questionInput = screen.getByLabelText('Question')
-//     await user.type(questionInput, 'What is the capital of France?')
-//   })
+  it('user can enter quiz name and submit', async () => {
+    const scope = nock('http://localhost')
+    .post('/api/v1/quizzes')
+    .reply(200, 3)
+    const {user} = renderApp('/create')
+    const quizNameInput = screen.getByLabelText('Quiz name')
+    await user.type(quizNameInput, 'Capital Cities')
+
+    const button = screen.getByText("Create and add questions")
+    await user.click(button)
+
+    expect(scope.isDone()).toBe(true)
+  
+  })
 })
 
 //nock out the api route
