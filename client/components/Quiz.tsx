@@ -2,8 +2,9 @@ import { getSingleQuiz } from '../api'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Question } from '../../models/question'
-import { Routes, Route, useParams } from 'react-router-dom'
+import { Routes, Route, useParams, useNavigate } from 'react-router-dom'
 import { Radio } from './Styled'
+
 
 interface SelectedAnswer {
   questionId: string
@@ -11,6 +12,7 @@ interface SelectedAnswer {
 }
 
 function Quiz() {
+  const navigate = useNavigate()
   const [selectedAnswer, setSelectedAnswers] = useState({} as SelectedAnswer[])
   // selectedAnswer = {quizId: quizData[0].quizId}
 
@@ -44,28 +46,27 @@ function Quiz() {
   }
   const handleSubmit = async (evt: React.ChangeEvent<HTMLFormElement>) => {
     evt.preventDefault()
-    if (Object.keys(selectedAnswer).length < quizData.length) {
-      try {
-        // Make a POST request to the specified endpoint
-        const response = await fetch(`${quizData[0].quizId}/my-result`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(selectedAnswer),
-        })
-
-        // Check if the request was successful (status code 2xx)
-        if (response.ok) {
-          console.log('Successfully submitted answers')
-          // Optionally, you can do something after a successful submission
-        } else {
-          // Handle errors, e.g., log the error or show a user-friendly message
-          console.error('Failed to submit answers:', response.statusText)
-        }
-      } catch (error) {
-        console.error('An error occurred during submission:', error)
+    //if (Object.keys(selectedAnswer).length < quizData.length) {
+    try {
+      // Make a POST request to the specified endpoint
+      const response = await fetch(`api/v1/quizzes/${quizData[0].quizId}/my-result`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(selectedAnswer),
+      })
+      // Check if the request was successful (status code 2xx)
+      if (response.ok) {
+        console.log('Successfully submitted answers')
+         // navigate(`/${quizData[0].quizId}/my-result`)
+        // Optionally, you can do something after a successful submission
+      } else {
+        // Handle errors, e.g., log the error or show a user-friendly message
+        console.error('Failed to submit answers:', response.statusText)
       }
+    } catch (error) {
+      console.error('An error occurred during submission:', error)
     }
   }
   // add onchange and values for each field on form
@@ -91,6 +92,7 @@ function Quiz() {
                           name={question.questionText}
                           value={answer}
                           onChange={handleRadioOption1}
+                          required
                         ></input>
                         <label>{answer}</label>
                         <br />
