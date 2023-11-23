@@ -1,10 +1,35 @@
 import request from 'superagent'
+
 import { Question } from '../models/question'
 import { Quiz, QuizData } from '../models/quiz'
 
 const rootUrl = '/api/v1'
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+export async function AddQuiz({
+  quizName,
+  isPublic,
+}: {
+  quizName: string
+  isPublic: boolean
+}) {
+  try {
+    const httpRequestObject = await request
+      .post(`${rootUrl}/quizzes`)
+      .send({ quizName, isPublic })
+    const newQuizId = httpRequestObject.body
+    return newQuizId
+  } catch (error){
+    // return 'an error occured'
+      throw new Error(
+        `An error occurred while adding the quiz`
+      )
+  }
+}
+
+
+function logError(err: Error) {
+  console.error('Error consuming the API (in client/api.js):', err.message)
+}
 
 export async function getSingleQuiz(id: string): Promise<Question[]> {
   await sleep(1500)
@@ -37,8 +62,4 @@ export async function getQuizzes(): Promise<Quiz[]> {
       authorId: '2',
     },
   ]
-}
-
-function logError(err: Error) {
-  console.error('Error consuming the API (in client/api.js):', err.message)
 }

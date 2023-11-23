@@ -1,13 +1,12 @@
 import {
   expect,
   it,
-  test,
   describe,
   beforeAll,
   beforeEach,
   afterAll,
 } from 'vitest'
-import { getSingleQuizQuestions } from './quizzes'
+import { getSingleQuizQuestions, addNewQuiz } from './quizzes'
 import db from './connection'
 import { QuestionData, QuestionSnakeCase } from '../../models/question'
 
@@ -44,6 +43,26 @@ describe('get of a quiz and all of its questions, questions pushed into an answe
     const mockQuizData = []
     const testQuizData = await getSingleQuizQuestions(8)
     expect(mockQuizData).toEqual(testQuizData)
+  })
+})
+
+beforeAll(() => {
+  return db.migrate.latest()
+})
+beforeEach(() => {
+  return db.seed.run()
+})
+
+describe('addNewQuiz', () => {
+  const quizData = {
+    quizName: 'My First Quiz',
+    lastUpdated: new Date(),
+    isPublic: false,
+  }
+
+  it('adds a new row to the quizzes database', async () => {
+    const newQuizId = await addNewQuiz(quizData)
+    expect(newQuizId).toEqual([{ quiz_id: 4 }])
   })
 })
 
