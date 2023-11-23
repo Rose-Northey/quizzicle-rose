@@ -32,7 +32,7 @@ router.post('/', async (req: express.Request, res: express.Response) => {
   }
 })
 
-router.get('/:id', async(req,res)=>{
+router.get('/:id', async (req, res) => {
   const quizId = Number(req.params.id)
   const response = await db.getQuizNameById(quizId)
 
