@@ -6,7 +6,7 @@ import request from 'supertest'
 
 
 vi.mock('../db/db')
-describe('POST /api/vi/:quizId/add-question',()=>{
+describe('Test if question is successfully added',()=>{
   it('it returns status code 200 if question is successfully added', async ()=>{
     //Arrange
    
