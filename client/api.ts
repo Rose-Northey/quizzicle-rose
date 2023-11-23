@@ -1,6 +1,4 @@
 import request from 'superagent'
-import { Quiz} from '../models/quiz.ts'
-import { Question } from '../models/question.ts'
 
 import { Question } from '../models/question'
 import { Quiz, QuizData } from '../models/quiz'
@@ -34,13 +32,12 @@ function logError(err: Error) {
 }
 
 export async function getSingleQuiz(id: string): Promise<Question[]> {
-  await sleep(1500)
+
   const res = await request.get(rootUrl + '/quizzes/' + id)
   return res.body
 }
 
 export async function getQuizzes(): Promise<Quiz[]> {
-  await sleep(1500)
 
   return [
     {

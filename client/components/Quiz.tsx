@@ -62,10 +62,12 @@ function Quiz() {
       // Check if the request was successful (status code 2xx)
       if (response.ok) {
         console.log('Successfully submitted answers')
-        navigate(`/${quizData[0].quizId}/my-result`, {
+        navigate(`/${quizData[0].quizId}/my-result`)
+        console.log("hey",response)
+        /*{
           correctAnswers: response.body.correctAnswers,
           totalAnswers: response.body.totalAnswers,
-        })
+        }*/
         // Optionally, you can do something after a successful submission
       } else {
         // Handle errors, e.g., log the error or show a user-friendly message
