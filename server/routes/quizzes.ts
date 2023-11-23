@@ -13,8 +13,8 @@ router.get('/', async (req, res) => {
   }
 })
 
-// GET /api/v1/quizzes
-router.post('/', async (req, res) => {
+// POST /api/v1/quizzes
+router.post('/', async (req: express.Request, res: express.Response) => {
   const { quizName, isPublic } = req.body
   const newQuizEntry = {
     quizName,
@@ -23,12 +23,20 @@ router.post('/', async (req, res) => {
   }
   try {
     const newQuizData = await db.addNewQuiz(newQuizEntry)
+
     const id = newQuizData[0].quiz_id
     res.status(200).json(id)
   } catch (error) {
     console.log(error)
     res.status(500).send('could not add new quiz')
   }
+})
+
+router.get('/:id', async(req,res)=>{
+  const quizId = Number(req.params.id)
+  const response = await db.getQuizNameById(quizId)
+
+  res.json(response)
 })
 
 export default router

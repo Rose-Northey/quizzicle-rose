@@ -5,15 +5,27 @@ import { useNavigate } from 'react-router-dom'
 function QuizCreate() {
   const [isPublic, setIsPublic] = useState<boolean>(false)
   const [quizName, setQuizName] = useState<string>('')
+  const [error, setError] = useState(null as Error | null)
 
   const navigate = useNavigate()
-  //when quizName is "", there is a p element under the form which is set to no class, when the quiz name is not "", it disappears by setting the class name to "hidden"
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const newQuizId = await AddQuiz({ quizName, isPublic })
-    navigate(`/${newQuizId}/add-question`)
-  }
+    try{
+      const newQuizId = await AddQuiz({ quizName, isPublic })
+      navigate(`/${newQuizId}/add-question`)
+    }catch (errorBoi){
+      setError(errorBoi.message)
+    }
+    }
+
+    if(error){
+      return (
+        <>
+        <p>{error}</p>
+        </>
+      )
+    }
 
   const handleNameChange = (event: React.ChangeEvent<HTMLFormElement>) => {
     setQuizName(event.target.value)
@@ -27,18 +39,17 @@ function QuizCreate() {
     <>
       <div className="create">
         <form className="vflex" onSubmit={handleSubmit}>
-          <label className="vflex">
-            Quiz name
+          <label htmlFor="quiz name" className="vflex">
+            Quiz name</label>
             <input
               className="nameInput"
               type="text"
               name={quizName}
-              id={quizName}
+              id="quiz name"
               onChange={handleNameChange}
               required
             />
             <p className={quizName === ''?'error':'error hidden'} >Field is required</p>
-          </label>
 
 
           <label>
