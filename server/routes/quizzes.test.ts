@@ -2,8 +2,7 @@ import { describe, expect, it, test, vi } from 'vitest'
 import server from '../server.ts'
 import * as db from '../db/db.ts'
 import request from 'supertest'
-import { QuestionData } from '../../models/question.ts'
-import QuestionCreate from '../../client/components/QuestionCreate.tsx'
+
 
 
 test('testing the testing', () => {
@@ -23,11 +22,10 @@ describe('POST /api/vi/:quizId/add-question',()=>{
       incorrect_answer2: "test incorrect answer2",
       incorrect_answer3: "test incorrect answer3"
     }
-
- 
-  vi.mocked(db.insertQuestion).mockResolvedValue(mockNewQuestion as unknown as any[])
-
+  vi.mocked(db.insertQuestion).mockResolvedValue(mockNewQuestion as unknown as unknown[])
+    //Act
   const response = await request(server).post('/api/v1/questions/1/add-question').send(mockNewQuestion)
+    //Assert
   expect(response.status).toBe(200)
   expect(response.body.question_text).toBe("test question")
 })
