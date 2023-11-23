@@ -1,12 +1,22 @@
 import { useState } from "react"
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {useParams,useNavigate} from 'react-router-dom'
 import { Question } from "../../models/question"
-import { addQuestion } from "../api"
+import { addQuestion,getQuizName } from "../api"
 function QuestionCreate() {
   const [text,setText] = useState({} as Question)
-
   const params = useParams()
+
+  const {
+    data: quizName,
+    isLoading,
+    error,
+  } = useQuery({ queryKey: ['quiz',params.quizId], queryFn: async()=>{
+    return await getQuizName(params.quizId)
+  }})
+
+
+  
   const queryClient  = useQueryClient()
   const navigate = useNavigate()
   const addQuestionMutation = useMutation({
@@ -48,17 +58,17 @@ function QuestionCreate() {
   }
   return (
     <div >
-    <h1>How Will I Know?</h1>
+    <h1>{quizName}</h1>
     <form style={{display:'flex',flexDirection:'column'}} method="post">
     <label htmlFor="questionText">Question</label>
-    <input type="text" className="fun" value = {text.questionText} id="questionText" required onChange = {handleChange}/>
+    <input type="text" className="fun" value = {text.questionText} id="questionText" onChange = {handleChange}/>
     <label htmlFor="correctAnswer">Correct answer</label>
     <input type="text" id = "correctAnswer" value = {text.correctAnswer} required onChange = {handleChange}/>
     <label htmlFor="incorrectAnswer1"> Incorrect Answer</label>
     <input type="text" id = "incorrectAnswer1" value = {text.incorrectAnswer1} required onChange = {handleChange}/>
     <label htmlFor="incorrectAnswer2"> Incorrect Answer</label>
     <input type="text" id = "incorrectAnswer2"  value = {text.incorrectAnswer2} required onChange = {handleChange}/>
-    <label htmlFor="incorrectAnswer2"> Incorrect Answer</label>
+    <label htmlFor="incorrectAnswer3"> Incorrect Answer</label>
     <input type="text" id = "incorrectAnswer3" value = {text.incorrectAnswer3} required onChange = {handleChange}/>
     </form>
     <button onClick = {handleMakeAnother}>Add and make another</button>

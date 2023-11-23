@@ -24,7 +24,27 @@ describe('the add question form', () => {
     .reply(200, [])
     const {user} = renderApp('/1/add-question')
     const questionInput = screen.getByLabelText('Question')
+    const correctAnswerInput = screen.getByLabelText('Correct answer')
+    const incorrectAnswerInput1 = screen.getAllByLabelText('Incorrect Answer')[0]
+    const incorrectAnswerInput2 = screen.getAllByLabelText('Incorrect Answer')[1]
+    const incorrectAnswerInput3 = screen.getAllByLabelText('Incorrect Answer')[2]
+    
     await user.type(questionInput, 'What is the capital of France?')
+    await user.type(correctAnswerInput, 'Paris')
+    await user.type(incorrectAnswerInput1 , 'California')
+    await user.type(incorrectAnswerInput2 , 'Denmark')
+    await user.type(incorrectAnswerInput3 , 'Seattle')
+    
+
+    const button = screen.getByText("Add and make another")
+    await user.click(button)    
+    
+    expect(scope.isDone()).toBe(true)
+    expect(questionInput.textContent).toBe('')
+    
+  })
+  it('reads the headers',()=>{
+    
   })
 })
 

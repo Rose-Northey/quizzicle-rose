@@ -41,3 +41,10 @@ export async function addQuestion({quiz_id,text}){
   const response = await request.post(`${rootUrl}/questions/${quiz_id}/add-question`).send(text)
   return response
 }
+
+//get specific id for quiz
+export async function getQuizName(quizId){
+  const response = await request.get(`${rootUrl}/quizzes/${quizId}`)
+  console.log("api",response.body)
+  return response.body.quiz_name
+}
