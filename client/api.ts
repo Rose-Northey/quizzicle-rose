@@ -16,11 +16,10 @@ export async function AddQuiz({
 
     const newQuizId = httpRequestObject.body
     return newQuizId
-  } catch {
-    return (error: Error) => {
+  } catch (error){
+    // return 'an error occured'
       throw new Error(
-        `An error occurred while adding the quiz: ${error.message}`
+        `An error occurred while adding the quiz`
       )
-    }
   }
 }

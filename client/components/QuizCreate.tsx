@@ -5,14 +5,27 @@ import { useNavigate } from 'react-router-dom'
 function QuizCreate() {
   const [isPublic, setIsPublic] = useState<boolean>(false)
   const [quizName, setQuizName] = useState<string>('')
+  const [error, setError] = useState(null as Error | null)
 
   const navigate = useNavigate()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const newQuizId = await AddQuiz({ quizName, isPublic })
-    navigate(`/${newQuizId}/add-question`)
-  }
+    try{
+      const newQuizId = await AddQuiz({ quizName, isPublic })
+      navigate(`/${newQuizId}/add-question`)
+    }catch (errorBoi){
+      setError(errorBoi.message)
+    }
+    }
+
+    if(error){
+      return (
+        <>
+        <p>{error}</p>
+        </>
+      )
+    }
 
   const handleNameChange = (event: React.ChangeEvent<HTMLFormElement>) => {
     setQuizName(event.target.value)
