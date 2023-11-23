@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 beforeEach(cleanup)
 expect.extend(matchers)
+
 export function renderApp(location: string) {
   const user = userEvent.setup()
   const router = createMemoryRouter(routes, {
