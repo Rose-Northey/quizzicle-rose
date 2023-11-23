@@ -8,8 +8,6 @@ import Quiz from './components/Quiz.tsx'
 import QuestionCreate from './components/QuestionCreate'
 import QuizResult from './components/QuizResult'
 
-
-
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />}>
     <Route index element={<QuizList />} />
