@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { Question } from '../models/question'
+import { Question, SelectedAnswer } from '../models/question'
 import { Quiz, QuizData } from '../models/quiz'
 
 const rootUrl = '/api/v1'
@@ -35,16 +35,11 @@ export async function AddQuiz({
   }
 }
 
-
 /////////////////////////////////////////////////////
 // QustionsApiz
 
-
-
-export async function getSingleQuiz(id: {quizId: string}): Promise<Question[]> {
-  const res = await request.get(rootUrl + '/quizzes/' + id.quizId)
-  console.log('we are within get quiz api function')
-  console.log(res.body)
+export async function getSingleQuiz(quizId: string): Promise<Question[]> {
+  const res = await request.get(rootUrl + '/quizzes/' + quizId)
   return res.body
 }
 
@@ -70,16 +65,16 @@ export async function getQuizName(quizId: string | undefined) {
 /////////////////////////////////////////////////////
 // Results Apis
 
-export async function calculateResults(quizId:string, questionResponses: string[]){
-  const res = await request.post(`${rootUrl}/results/${quizId.quizId}`).send(questionResponses)
-  const results = res.body
-  console.log(results)
-  return results
-}
-
-
-export async function getResults(){
-  const res = await request.get(`${rootUrl}/results`)
+export async function calculateResults({
+  quizId,
+  selectedAnswers,
+}: {
+  quizId: string
+  selectedAnswers: SelectedAnswer[]
+}) {
+  const res = await request
+    .post(`${rootUrl}/results/${quizId}`)
+    .send(selectedAnswers)
   const results = res.body
   return results
 }

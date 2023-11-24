@@ -28,3 +28,6 @@ export interface QuestionData {
   incorrectAnswer3?: string
 }
 
+export interface SelectedAnswer {
+  [key: number]: string
+}

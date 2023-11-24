@@ -23,6 +23,7 @@ export interface QuizData {
 
 export interface Answers {
   correctAnswer: string
+  questionId: number
 }
 
 export interface NewQuizEntry {
@@ -33,5 +34,5 @@ export interface NewQuizEntry {
 
 export interface Results {
   score: number
-  question_count: number
+  questionCount: number
 }

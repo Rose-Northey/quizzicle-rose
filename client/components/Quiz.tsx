@@ -1,41 +1,38 @@
-import { getSingleQuiz, calculateResults} from '../api'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { getSingleQuiz, calculateResults } from '../api'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Question } from '../../models/question'
-import { Routes, Route, useParams, useNavigate } from 'react-router-dom'
-import QuestionCreate from './QuestionCreate'
-
-
-
-interface SelectedAnswer {
-  questionId: string
-  selectedAnswer: string
-}
+import { Question, SelectedAnswer } from '../../models/question'
+import { useParams, useNavigate } from 'react-router-dom'
 
 function Quiz() {
-  
+  const queryClient = useQueryClient()
+  const resultsMutation = useMutation({
+    mutationFn: calculateResults,
+    onSuccess: async (results) => {
+      queryClient.setQueryData(['results'], results)
+      navigate(`/${quizData[0].quizId}/my-result`)
+    },
+  })
   const navigate = useNavigate()
-  const [selectedAnswer, setSelectedAnswers] = useState({} as SelectedAnswer[])
-  const quizId = useParams()
+  const [selectedAnswers, setSelectedAnswers] = useState([] as SelectedAnswer[])
+  const quizId = useParams().quizId as string
 
-
-  const handleRadioOption1 = (evt) => {
+  const handleRadioOption = (evt, questionId: Question['questionId']) => {
     const answer = evt.target.value
-    const questionNumber = evt.target.id
-    setSelectedAnswers({ ...selectedAnswer, [questionNumber]: answer })
+    setSelectedAnswers({ ...selectedAnswers, [questionId]: answer })
   }
-
-  
 
   const {
     data: quizData,
     isError,
     isLoading,
   } = useQuery({
-    queryKey: ['quizData'],
+    queryKey: ['quizData', quizId],
     queryFn: async () => {
       return await getSingleQuiz(quizId)
     },
+    staleTime: Infinity,
+    refetchOnMount: 'always',
   })
   if (isError) {
     return <p>Im broked</p>
@@ -45,28 +42,19 @@ function Quiz() {
     return <p>Loading...</p>
   }
 
-
-
   const handleSubmit = async (evt: React.ChangeEvent<HTMLFormElement>) => {
     evt.preventDefault()
     try {
-
-      const quizResponses = Object.values(selectedAnswer)
-      calculateResults(quizId, quizResponses)
-      navigate(`/${quizData[0].quizId}/my-result`)
-
+      resultsMutation.mutate({ quizId, selectedAnswers })
     } catch (error) {
       console.error('An error occurred during submission:', error)
     }
   }
 
-
-
-
   return (
     <>
       <div>
-        <h1>{quizData[0].quizName}</h1>
+        <h1>{quizData[0]?.quizName}</h1>
 
         <form onSubmit={handleSubmit}>
           <ol>
@@ -74,20 +62,22 @@ function Quiz() {
               return (
                 <li key={question.questionId}>
                   {question.questionText}
-                  {question.answers.map((answer) => {
+                  {question.answers.map((answer, index) => {
+                    const answerItemId = `answer-${question.questionId}-${index}`
                     return (
                       answer?.length && (
                         <div key={`${answer}-answers`}>
                           <input
                             type="radio"
-                            id={`${question.questionId}`}
-                            name={question.questionText}
+                            id={answerItemId}
+                            name={`question-${question.questionId}`}
                             value={answer}
-                            onChange={handleRadioOption1}
+                            onChange={(e) => {
+                              handleRadioOption(e, question.questionId)
+                            }}
                             required
-                          ></input>
-                          <label>{answer}</label>
-                          <br />
+                          />
+                          <label htmlFor={answerItemId}>{answer}</label>
                         </div>
                       )
                     )

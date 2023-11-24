@@ -15,27 +15,20 @@ router.get('/', async (req,res)=>{
 router.post('/:quizId', async (req, res) => {
   const quizId = parseInt(req.params.quizId)
   const selectedAnswers = req.body
-  console.log(quizId)
-
-  const answersObj = await getCorrectAnswersByQuizId(quizId)
-  const correctAnswers = answersObj.map((obj)=>{
-      return obj.correctAnswer
-    })
-  const results ={
-    score: 0,
-    question_count:0
-  }
-
-    correctAnswers.map((correctAnswer, index) => {
-      results.question_count++
-      if (correctAnswer === selectedAnswers[index]) {
-        results.score++
-        console.log(results.score)
+  const correctAnswers = await getCorrectAnswersByQuizId(quizId)
+  const result = {
+    score: correctAnswers.reduce((currentScore, currentAnswer) => {
+      if (
+        currentAnswer.correctAnswer ===
+        selectedAnswers[currentAnswer.questionId.toString()]
+      ) {
+        return currentScore + 1
       }
-    })
-
-    console.log("yo")
-    await addNewResults(results)
+      return currentScore
+    }, 0),
+    questionCount: correctAnswers.length,
+  }
+  res.json(result)
 })
 
 export default router
