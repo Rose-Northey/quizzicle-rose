@@ -71,7 +71,7 @@ export async function getQuizName(quizId: string | undefined) {
 // Results Apis
 
 export async function calculateResults(quizId:string, questionResponses: string[]){
-  const res = await request.post(`${rootUrl}/results/${quizId}`).send(questionResponses)
+  const res = await request.post(`${rootUrl}/results/${quizId.quizId}`).send(questionResponses)
   const results = res.body
   console.log(results)
   return results

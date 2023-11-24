@@ -30,3 +30,8 @@ export interface NewQuizEntry {
   lastUpdated: Date
   isPublic: boolean
 }
+
+export interface Results {
+  score: number
+  question_count: number
+}

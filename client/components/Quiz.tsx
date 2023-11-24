@@ -18,14 +18,6 @@ function Quiz() {
   const [selectedAnswer, setSelectedAnswers] = useState({} as SelectedAnswer[])
   const quizId = useParams()
 
-  const {data: results, resultsIsLoading, resultsIsError} = useQuery({queryKey:['results'], queryFn: calculateResults})
-  if(resultsIsLoading){
-    return (<p>Results being calculated...</p>)
-  }
-  if(resultsIsError){
-    return <p>Results could not be calculated. Dang.</p>
-  }
-
 
   const handleRadioOption1 = (evt) => {
     const answer = evt.target.value
