@@ -1,4 +1,5 @@
 import { Quiz } from '../../models/quiz.ts'
+import { QuestionData, QuestionSnakeCase } from '../../models/question'
 import { describe, expect, it, test, vi } from 'vitest'
 import server from '../server.ts'
 import request from 'supertest'
@@ -6,6 +7,28 @@ import * as db from '../db/quizzes'
 
 vi.mock('../db/quizzes')
 
+describe('get of a quiz and all of its questions, questions pushed into an answers array', () => {
+  it('gets data and checks if an answers array', async () => {
+
+    vi.mocked(db.getSingleQuizQuestions).mockImplementation(async()=>{
+      return [
+        {
+          "quizName": "My First Quiz",
+          "quizId": 1,
+          "questionId": 1,
+          "questionText": "Pretend this is a longer question?",
+          "answers": [
+            "correct answer",
+            "incorrect answer1",
+            "incorrect answer2",
+            "incorrect answer3"
+        ]}];
+    })
+    const res = await request(server).get('/api/v1/1')
+    expect(res.statusCode).toBe(200)
+  )}
+)}
+         
 describe('GET /api/v1/quizzes', () => {
   it('GETs all quizzes', async () => {
     // ARRANGE

@@ -1,6 +1,6 @@
-import { Quiz } from '../models/quiz.ts'
-import { Question } from '../models/question.ts'
 import request from 'superagent'
+import { Question } from '../models/question'
+import { Quiz, QuizData } from '../models/quiz'
 
 const rootUrl = '/api/v1'
 
@@ -24,13 +24,18 @@ export async function AddQuiz({
     const httpRequestObject = await request
       .post(`${rootUrl}/quizzes`)
       .send({ quizName, isPublic })
-
     const newQuizId = httpRequestObject.body
     return newQuizId
   } catch (error) {
     // return 'an error occured'
     throw new Error(`An error occurred while adding the quiz`)
   }
+}
+
+export async function getSingleQuiz(id: string): Promise<Question[]> {
+
+  const res = await request.get(rootUrl + '/quizzes/' + id)
+  return res.body
 }
 
 interface addQuestionParams {
@@ -81,25 +86,6 @@ export async function getAnswers(quizId: number) {
   return resultObj
 }
 
-// {1: 'incorrect answer3', 2: 'incorrect answer1', 3: 'correct answer'}
-
-// //[
-// 	{
-// 		"questionId": 1,
-// 		"correctAnswer": "correct answer"
-// 	},
-// 	{
-// 		"questionId": 2,
-// 		"correctAnswer": "correct answer"
-// 	},
-// 	{
-// 		"questionId": 3,
-// 		"correctAnswer": "correct answer"
-// 	}
-// ]
-
-//get the data into an array of only the correct andswer and only the user selected answer
-
-//use a map function and use the index to compare each item in the array
-
-//if they are the same, increase a score by 1
+function logError(err: Error) {
+  console.error('Error consuming the API (in client/api.js):', err.message)
+}

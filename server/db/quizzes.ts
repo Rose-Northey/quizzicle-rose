@@ -1,4 +1,5 @@
 import db from './connection.ts'
+import { QuestionData, QuestionSnakeCase } from '../../models/question'
 import { Quiz, QuizData, Answers } from '../../models/quiz.ts'
 
 export async function getQuizzes(): Promise<Quiz[]> {
@@ -6,6 +7,24 @@ export async function getQuizzes(): Promise<Quiz[]> {
     'quiz_id as quizId',
     'quiz_name as quizName'
   )
+}
+
+export async function getSingleQuizQuestions(
+  id: number
+): Promise<QuestionSnakeCase[]> {
+  return await db('questions')
+    .join('quizzes', 'quizzes.quiz_id', 'questions.quiz_id')
+    .where('questions.quiz_id', id)
+    .select(
+      'quizzes.quiz_name as quizName',
+      'questions.quiz_id as quizId',
+      'questions.question_id as questionId',
+      'questions.question_text as questionText',
+      'questions.correct_answer as correctAnswer',
+      'questions.incorrect_answer1 as incorrectAnswer1',
+      'questions.incorrect_answer2 as incorrectAnswer2',
+      'questions.incorrect_answer3 as incorrectAnswer3'
+    )
 }
 
 export function getQuizNameById(quiz_id: number) {
