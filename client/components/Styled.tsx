@@ -27,7 +27,6 @@ export const Button = styled.button<{ $btnColor?: string }>`
   background-color: var(--${(props) => props.$btnColor});
   color: var(
     --${(props) => {
-        console.log(props.$btnColor)
         if (props.$btnColor == 'cream') {
           return 'midnight'
         } else if (props.$btnColor == 'olive') {
