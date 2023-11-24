@@ -27,3 +27,4 @@ export interface QuestionData {
   incorrectAnswer2?: string
   incorrectAnswer3?: string
 }
+

@@ -13,6 +13,8 @@ router.get('/', async (req, res) => {
   }
 })
 
+
+
 router.get('/:quiz_id', async (req, res) => {
   const id = Number(req.params.quiz_id)
 
@@ -34,6 +36,8 @@ router.get('/:quiz_id', async (req, res) => {
     res.status(500).json({ message: 'Rats! Somthing went wrong!' })
   }
 })
+
+
 
 // POST /api/v1/quizzes
 router.post('/', async (req: express.Request, res: express.Response) => {

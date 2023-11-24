@@ -2,7 +2,7 @@
 import { useQuery } from '@tanstack/react-query'
 import server from '../../server/server'
 import { useFetcher, useParams } from 'react-router-dom'
-import { getAnswers } from '../api'
+import { getResults} from '../api'
 import { useEffect, useState } from 'react'
 
 function QuizResult() {
@@ -13,13 +13,13 @@ function QuizResult() {
 
   useEffect(() => {
     async function fetchResults() {
-      const resultsFromApi = await getAnswers(quizId)
+      const resultsFromApi = await getResults(quizId)
 
       setResults(resultsFromApi)
     }
     fetchResults(quizId)
   }, [])
-  console.log(results?.score)
+  // console.log(results?.score)
 
   return (
     <div>

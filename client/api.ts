@@ -32,6 +32,11 @@ export async function AddQuiz({
   }
 }
 
+export function postSelectedAnswers(questionResponses){
+  console.log(questionResponses)
+}
+
+
 export async function getSingleQuiz(id: string): Promise<Question[]> {
   const res = await request.get(rootUrl + '/quizzes/' + id)
   return res.body
@@ -56,7 +61,11 @@ export async function getQuizName(quizId: string | undefined) {
   return response.body.quiz_name
 }
 
-export async function getAnswers(quizId: number) {
+
+
+
+
+export async function getResults(quizId: number) {
   const userAnswers = {
     1: 'incorrect answer3',
     2: 'incorrect answer1',

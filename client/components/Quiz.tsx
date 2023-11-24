@@ -1,9 +1,10 @@
-import { getSingleQuiz } from '../api'
+import { getSingleQuiz, postSelectedAnswers} from '../api'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Question } from '../../models/question'
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom'
 import { Radio } from './Styled'
+
 
 interface SelectedAnswer {
   questionId: string
@@ -15,7 +16,6 @@ function Quiz() {
   const [selectedAnswer, setSelectedAnswers] = useState({} as SelectedAnswer[])
   // selectedAnswer = {quizId: quizData[0].quizId}
 
-  console.log(selectedAnswer)
 
   const handleRadioOption1 = (evt) => {
     const answer = evt.target.value
@@ -45,40 +45,18 @@ function Quiz() {
   }
   const handleSubmit = async (evt: React.ChangeEvent<HTMLFormElement>) => {
     evt.preventDefault()
-    //if (Object.keys(selectedAnswer).length < quizData.length) {
+  
     try {
-      // Make a POST request to the specified endpoint
-      // setSelectedAnswers({...selectedAnswer, quizId: quizData[0].quizId})
-      // const response = await fetch(
-      //   `api/v1/quizzes/${quizData[0].quizId}/my-result`,
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(selectedAnswer),
-      //   }
-      // )
-      // // Check if the request was successful (status code 2xx)
-      // if (response.ok) {
-      //   console.log('Successfully submitted answers')
+      const quizResponses = Object.values(selectedAnswer)
+      postSelectedAnswers(quizResponses)
       navigate(`/${quizData[0].quizId}/my-result`)
-      // console.log("hey",response)
-      /*{
-          correctAnswers: response.body.correctAnswers,
-          totalAnswers: response.body.totalAnswers,
-        }*/
-      // Optionally, you can do something after a successful submission
-      // } else {
-      //   // Handle errors, e.g., log the error or show a user-friendly message
-      //   console.error('Failed to submit answers:', response.statusText)
-      // }
+
     } catch (error) {
       console.error('An error occurred during submission:', error)
     }
   }
   // add onchange and values for each field on form
-  console.log(quizData)
+
   return (
     <>
       <div>
