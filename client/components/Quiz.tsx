@@ -1,9 +1,10 @@
-import { getSingleQuiz, postSelectedAnswers} from '../api'
+import { getSingleQuiz, calculateResults} from '../api'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Question } from '../../models/question'
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom'
-import { Radio } from './Styled'
+import QuestionCreate from './QuestionCreate'
+
 
 
 interface SelectedAnswer {
@@ -12,19 +13,27 @@ interface SelectedAnswer {
 }
 
 function Quiz() {
+  
   const navigate = useNavigate()
   const [selectedAnswer, setSelectedAnswers] = useState({} as SelectedAnswer[])
-  // selectedAnswer = {quizId: quizData[0].quizId}
+  const quizId = useParams()
+
+  const {data: results, resultsIsLoading, resultsIsError} = useQuery({queryKey:['results'], queryFn: calculateResults})
+  if(resultsIsLoading){
+    return (<p>Results being calculated...</p>)
+  }
+  if(resultsIsError){
+    return <p>Results could not be calculated. Dang.</p>
+  }
 
 
   const handleRadioOption1 = (evt) => {
     const answer = evt.target.value
     const questionNumber = evt.target.id
-
     setSelectedAnswers({ ...selectedAnswer, [questionNumber]: answer })
   }
 
-  const { quizId } = useParams()
+  
 
   const {
     data: quizData,
@@ -43,19 +52,24 @@ function Quiz() {
   if (!quizData || isLoading) {
     return <p>Loading...</p>
   }
+
+
+
   const handleSubmit = async (evt: React.ChangeEvent<HTMLFormElement>) => {
     evt.preventDefault()
-  
     try {
+
       const quizResponses = Object.values(selectedAnswer)
-      postSelectedAnswers(quizId, quizResponses)
+      calculateResults(quizId, quizResponses)
       navigate(`/${quizData[0].quizId}/my-result`)
 
     } catch (error) {
       console.error('An error occurred during submission:', error)
     }
   }
-  // add onchange and values for each field on form
+
+
+
 
   return (
     <>

@@ -1,5 +1,4 @@
 import express from 'express'
-import { getCorrectAnswersByQuizId } from '../db/quizzes'
 import { insertQuestion } from '../db/questionsDb'
 
 const router = express.Router()
@@ -8,8 +7,6 @@ const router = express.Router()
 router.get('/', async (req, res) => {
   res.json({})
 })
-
-
 
 
 router.post('/:quizId/add-question', async (req, res) => {

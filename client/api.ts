@@ -41,8 +41,10 @@ export async function AddQuiz({
 
 
 
-export async function getSingleQuiz(id: string): Promise<Question[]> {
-  const res = await request.get(rootUrl + '/quizzes/' + id)
+export async function getSingleQuiz(id: {quizId: string}): Promise<Question[]> {
+  const res = await request.get(rootUrl + '/quizzes/' + id.quizId)
+  console.log('we are within get quiz api function')
+  console.log(res.body)
   return res.body
 }
 
@@ -68,7 +70,7 @@ export async function getQuizName(quizId: string | undefined) {
 /////////////////////////////////////////////////////
 // Results Apis
 
-export async function postSelectedAnswers(quizId:string, questionResponses: string[]){
+export async function calculateResults(quizId:string, questionResponses: string[]){
   const res = await request.post(`${rootUrl}/results/${quizId}`).send(questionResponses)
   const results = res.body
   console.log(results)
