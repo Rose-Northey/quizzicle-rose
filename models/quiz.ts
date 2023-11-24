@@ -25,3 +25,9 @@ export interface Answers {
   questionId: number
   correctAnswer: string
 }
+
+export interface NewQuizEntry {
+  quizName: string
+  lastUpdated: Date
+  isPublic: boolean
+}
