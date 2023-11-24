@@ -1,14 +1,7 @@
-import {
-  expect,
-  it,
-  describe,
-  beforeAll,
-  beforeEach,
-  afterAll,
-} from 'vitest'
-import { getSingleQuizQuestions, addNewQuiz } from './quizzes'
-import db from './connection'
 import { QuestionData, QuestionSnakeCase } from '../../models/question'
+import { expect, it, describe, beforeAll, beforeEach, afterAll } from 'vitest'
+import { getSingleQuizQuestions, addNewQuiz, getQuizzes } from './quizzes'
+import db from './connection'
 
 beforeAll(() => {
   return db.migrate.latest()
@@ -46,11 +39,25 @@ describe('get of a quiz and all of its questions, questions pushed into an answe
   })
 })
 
-beforeAll(() => {
-  return db.migrate.latest()
-})
-beforeEach(() => {
-  return db.seed.run()
+describe('getQuizzes', () => {
+  const quizObjectArray = [
+    {
+      quizId: 1,
+      quizName: 'My First Quiz',
+    },
+    {
+      quizId: 2,
+      quizName: 'My Second Quiz',
+    },
+    {
+      quizId: 3,
+      quizName: 'My Fancy Quiz',
+    },
+  ]
+  it('displays list of quizzes', async () => {
+    const quizList = await getQuizzes()
+    expect(quizList).toEqual(quizObjectArray)
+  })
 })
 
 describe('addNewQuiz', () => {

@@ -28,7 +28,7 @@ h1, h2, h3, h4 {
 }
 
 a {
-  color: var(--berry)
+  color: var(--berry);
 }
 
 main, header > div {
@@ -56,7 +56,41 @@ header {
   }
 }
 
+ul.ulQuizName {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+  text-indent: 10px;
+  line-height: 30px;
+  font-size: .875rem;
+  font-style: bold var(--midnight);;
+  a {
+    color: var(--midnight);
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
 
+nav {
+  max-width: 920px;
+  margin: 0 auto;
+  display: flex;
+  a {
+    text-decoration: none;
+    color: var(--pine);
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 10px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+hr {
+  border-top: 2px dashed var(--midnight);
+  margin: 0 0 1rem;
+}
 
 .vflex{
   display: flex;

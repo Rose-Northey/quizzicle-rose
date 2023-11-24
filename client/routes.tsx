@@ -11,9 +11,9 @@ import QuizResult from './components/QuizResult'
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />}>
     <Route index element={<QuizList />} />
-    <Route path="/create" element ={<QuizCreate />} />
-    <Route path = "/:quizId" element  = {<Quiz />} />
-    <Route path = "/:quizId/add-question" element = {<QuestionCreate />} />
-    <Route path = "/:quizId/my-result" element = {<QuizResult />} />
+    <Route path="/create" element={<QuizCreate />} />
+    <Route path="/:quizId" element={<Quiz />} />
+    <Route path="/:quizId/add-question" element={<QuestionCreate />} />
+    <Route path="/:quizId/my-result" element={<QuizResult />} />
   </Route>
 )

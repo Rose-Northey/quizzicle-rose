@@ -1,33 +1,11 @@
-import {
-  expect,
-  it,
-  test, vi,
-  describe,
-  beforeAll,
-  beforeEach,
-  afterAll,
-} from 'vitest'
-import connection from '../db/connection.ts'
+import { Quiz } from '../../models/quiz.ts'
 import { QuestionData, QuestionSnakeCase } from '../../models/question'
-
+import { describe, expect, it, test, vi } from 'vitest'
 import server from '../server.ts'
 import request from 'supertest'
 import * as db from '../db/quizzes'
 
-beforeAll(() => {
-  return connection.migrate.latest()
-})
-beforeEach(() => {
-  return connection.seed.run()
-})
-
-
 vi.mock('../db/quizzes')
-
-test('testing the testing', () => {
-  it('returns positive is truth is truthy')
-  expect(true).toBeTruthy()
-})
 
 describe('get of a quiz and all of its questions, questions pushed into an answers array', () => {
   it('gets data and checks if an answers array', async () => {
@@ -48,7 +26,42 @@ describe('get of a quiz and all of its questions, questions pushed into an answe
     })
     const res = await request(server).get('/api/v1/1')
     expect(res.statusCode).toBe(200)
-    
+  )}
+)}
+         
+describe('GET /api/v1/quizzes', () => {
+  it('GETs all quizzes', async () => {
+    // ARRANGE
+    vi.mocked(db.getQuizzes).mockImplementation(async () => {
+      return [
+        {
+          quizId: 8,
+          quizName: 'What is love?',
+        } as Quiz,
+      ]
+    })
+
+    const res = await request(server).get('/api/v1/quizzes')
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchInlineSnapshot(`
+      [
+        {
+          "quizId": 8,
+          "quizName": "What is love?",
+        },
+      ]
+    `)
+  })
+
+  it('returns a 500 and an error message when db fails', async () => {
+    // ARRANGE
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.mocked(db.getQuizzes).mockImplementation(async () => {
+      throw new Error()
+    })
+    const res = await request(server).get('/api/v1/quizzes')
+    expect(res.statusCode).toBe(500)
+    expect(res.text).toMatch(/Could not get Quizzes/)
   })
 })
 
@@ -73,9 +86,4 @@ describe('post of a new quiz name and isPublic', ()=>{
     expect(res.statusCode).toBe(500);
     
   }
-})
-
-
-afterAll(() => {
-  return connection.destroy()
 })

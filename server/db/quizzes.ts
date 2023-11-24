@@ -1,11 +1,12 @@
-import db from './connection'
-
+import db from './connection.ts'
 import { QuestionData, QuestionSnakeCase } from '../../models/question'
-
-import { Quiz, QuizData } from '../../models/quiz.ts'
+import { Quiz, QuizData, Answers } from '../../models/quiz.ts'
 
 export async function getQuizzes(): Promise<Quiz[]> {
-  return [] as Quiz[]
+  return await db('quizzes').select(
+    'quiz_id as quizId',
+    'quiz_name as quizName'
+  )
 }
 
 export async function getSingleQuizQuestions(
@@ -26,13 +27,10 @@ export async function getSingleQuizQuestions(
     )
 }
 
-
-
-
-
 export function getQuizNameById(quiz_id: number) {
   return db('quizzes').select('quiz_name').where('quiz_id', quiz_id).first()
 }
+
 export async function addNewQuiz(quizData: QuizData): Promise<Quiz> {
   return await db('quizzes')
     .insert({
@@ -43,3 +41,11 @@ export async function addNewQuiz(quizData: QuizData): Promise<Quiz> {
     .returning('quiz_id')
 }
 
+export async function getCorrectAnswersByQuizId(
+  quizId: number
+): Promise<Answers[]> {
+  // console.log(quizId)
+  return db('questions')
+    .where('quiz_id', quizId)
+    .select('question_id as questionId', 'correct_answer as correctAnswer')
+}
