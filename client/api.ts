@@ -70,38 +70,9 @@ export async function getQuizName(quizId: string | undefined) {
 
 export async function postSelectedAnswers(quizId:string, questionResponses: string[]){
   const res = await request.post(`${rootUrl}/results/${quizId}`).send(questionResponses)
-  console.log('from client api functions')
-  console.log(res.body)
-  return res.body
-}
-
-export async function getResults(quizId: number) {
-  const userAnswers = {
-    1: 'incorrect answer3',
-    2: 'incorrect answer1',
-    3: 'correct answer',
-  }
-  const HTMLObject = await request.post(`${rootUrl}/results/${quizId}`)
-  const correctAnswers = HTMLObject.body
-
-  const formattedCorrectAnswers = correctAnswers.map((object) => {
-    return object.correctAnswer
-  })
-
-  let score = 0
-  let questionCount = 0
-
-  const formattedUserAnswers = Object.values(userAnswers)
-
-  formattedCorrectAnswers.map((correctAnswer, index) => {
-    questionCount++
-    if (correctAnswer === formattedUserAnswers[index]) {
-      score++
-    }
-  })
-  const resultObj = { score, questionCount }
-  // console.log(resultObj)
-  return resultObj
+  const results = res.body
+  console.log(results)
+  return results
 }
 
 function logError(err: Error) {
