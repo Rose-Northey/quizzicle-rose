@@ -1,17 +1,9 @@
 import express from 'express'
 import { getCorrectAnswersByQuizId } from '../db/quizzes'
-import { getResults, addNewResults } from '../db/results'
-import { insertQuestion } from '../db/questionsDb'
 
 const router = express.Router()
 
-// http://localhost:5173/api/v1/results/:quizId
-
-router.get('/', async (req,res)=>{
-  const results = await getResults() 
-  res.json(results)
-})
-
+// POST to /api/v1/results/:quizId
 router.post('/:quizId', async (req, res) => {
   const quizId = parseInt(req.params.quizId)
   const selectedAnswers = req.body

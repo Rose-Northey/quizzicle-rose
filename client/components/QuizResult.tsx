@@ -36,5 +36,3 @@ function QuizResult() {
 }
 
 export default QuizResult
-
-// {score: 1, questionCount: 3}

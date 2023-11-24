@@ -11,16 +11,12 @@ export interface QuestionSnakeCase {
 export interface Question {
   questionId: number
   quizId: number
+  quizName?: string
   questionText: string
-  correctAnswer: string
-  incorrectAnswer1: string
-  incorrectAnswer2?: string
-  incorrectAnswer3?: string
   answers: string[]
 }
 
 export interface QuestionData {
-
   questionText: string
   correctAnswer: string
   incorrectAnswer1: string

@@ -93,39 +93,3 @@ function Quiz() {
   )
 }
 export default Quiz
-
-// / {question.answers.map( answer => {
-//   return <label></label>
-//   <input type="radio" id='1' name="fav_language" value={answers[key]}></input>
-// })}
-
-// {
-//   /* method="post" action='/quizresultspage' */
-// }
-// {
-//   /*{quizData.map(quizElement => {
-//   <li>{quizElement.question_text}
-//     {Object.keys(element).forEach(key => {
-//       <input type="radio" id='1' name="fav_language" value={answers[key]}>
-//     <label for="javascript">JavaScript</label>
-//     })}
-
-//   </li>
-
-// })}
-// <button>Submit</button>
-// </form> */
-// }
-
-// const [results, setResults] = useState([])
-
-// const handleSubmit = (evt) => {
-//   evt.preventDefault()
-//   setResults([...results, results])
-// setNewScare({
-//   name: '',
-//   rating: '',
-//   origin: '',
-//   lastScare: '',
-// })
-// }
