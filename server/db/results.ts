@@ -3,7 +3,7 @@ import { QuestionSnakeCase } from '../../models/question'
 import { Quiz, QuizData, Answers, Results } from '../../models/quiz.ts'
 
 export async function getResults(): Promise<Quiz[]> {
-  return await db('results').select('*')
+  return await db('results').select('*').first()
 }
 
 

@@ -7,9 +7,10 @@ const router = express.Router()
 
 // http://localhost:5173/api/v1/results/:quizId
 
-// router.post('/', async (req,res)=>{
-
-// })
+router.get('/', async (req,res)=>{
+  const results = await getResults() 
+  res.json(results)
+})
 
 router.post('/:quizId', async (req, res) => {
   const quizId = parseInt(req.params.quizId)
@@ -20,8 +21,6 @@ router.post('/:quizId', async (req, res) => {
   const correctAnswers = answersObj.map((obj)=>{
       return obj.correctAnswer
     })
-    console.log(correctAnswers)
-
   const results ={
     score: 0,
     question_count:0
