@@ -9,7 +9,7 @@ describe('the add question form', () => {
   it('has an input for questions', async () => {
     renderApp('/1/add-question')
     nock('http://localhost')
-      .get('/api/v1/quizzes/1')
+      .get('/api/v1/quizzes/name/1')
       .reply(200, { quiz_name: 'Lol' })
     const label = await screen.findByLabelText('Question')
     expect(label).toBeVisible()
@@ -19,7 +19,7 @@ describe('the add question form', () => {
       .post('/api/v1/questions/1/add-question')
       .reply(200, [])
     nock('http://localhost')
-      .get('/api/v1/quizzes/1')
+      .get('/api/v1/quizzes/name/1')
       .reply(200, { quiz_name: 'Lol' })
     const { user } = renderApp('/1/add-question')
     const questionInput = await screen.findByLabelText('Question')

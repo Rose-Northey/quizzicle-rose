@@ -33,7 +33,6 @@ export async function AddQuiz({
 }
 
 export async function getSingleQuiz(id: string): Promise<Question[]> {
-
   const res = await request.get(rootUrl + '/quizzes/' + id)
   return res.body
 }
@@ -52,7 +51,7 @@ export async function addQuestion({ quiz_id, text }: addQuestionParams) {
 
 //get specific id for quiz
 export async function getQuizName(quizId: string | undefined) {
-  const response = await request.get(`${rootUrl}/quizzes/${quizId}`)
+  const response = await request.get(`${rootUrl}/quizzes/name/${quizId}`)
 
   return response.body.quiz_name
 }
