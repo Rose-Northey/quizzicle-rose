@@ -1,5 +1,5 @@
 import db from './connection.ts'
-import { Quiz, QuizData } from '../../models/quiz.ts'
+import { Quiz, QuizData, Answers } from '../../models/quiz.ts'
 
 export async function getQuizzes(): Promise<Quiz[]> {
   return await db('quizzes').select(
@@ -20,4 +20,13 @@ export async function addNewQuiz(quizData: QuizData): Promise<Quiz> {
       is_public: quizData.isPublic,
     })
     .returning('quiz_id')
+}
+
+export async function getCorrectAnswersByQuizId(
+  quizId: number
+): Promise<Answers[]> {
+  // console.log(quizId)
+  return db('questions')
+    .where('quiz_id', quizId)
+    .select('question_id as questionId', 'correct_answer as correctAnswer')
 }
