@@ -47,5 +47,5 @@ export async function getCorrectAnswersByQuizId(
   // console.log(quizId)
   return db('questions')
     .where('quiz_id', quizId)
-    .select('question_id as questionId', 'correct_answer as correctAnswer')
+    .select('correct_answer as correctAnswer')
 }

@@ -9,25 +9,6 @@ router.get('/', async (req, res) => {
   res.json({})
 })
 
-// I need to hand this route the client selected answers
-router.post('/quiz/:quizId', async (req, res) => {
-  const quizId = parseInt(req.params.quizId)
-
-
-  try {
-    const answers = await getCorrectAnswersByQuizId(quizId)
-    if (!answers) {
-      res.sendStatus(404)
-      return
-    }
-    res.json(answers)
-  } catch (err) {
-    console.log(err)
-    res.status(500).send('Could not get answers')
-  }
-})
-
-
 
 
 

@@ -48,7 +48,7 @@ function Quiz() {
   
     try {
       const quizResponses = Object.values(selectedAnswer)
-      postSelectedAnswers(quizResponses)
+      postSelectedAnswers(quizId, quizResponses)
       navigate(`/${quizData[0].quizId}/my-result`)
 
     } catch (error) {

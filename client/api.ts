@@ -4,6 +4,9 @@ import { Quiz, QuizData } from '../models/quiz'
 
 const rootUrl = '/api/v1'
 
+/////////////////////////////////////////////////////
+// Quizzes Apiz
+
 export async function getQuizzes() {
   try {
     const response = await request.get(rootUrl + '/quizzes')
@@ -32,9 +35,10 @@ export async function AddQuiz({
   }
 }
 
-export function postSelectedAnswers(questionResponses){
-  console.log(questionResponses)
-}
+
+/////////////////////////////////////////////////////
+// QustionsApiz
+
 
 
 export async function getSingleQuiz(id: string): Promise<Question[]> {
@@ -61,9 +65,15 @@ export async function getQuizName(quizId: string | undefined) {
   return response.body.quiz_name
 }
 
+/////////////////////////////////////////////////////
+// Results Apis
 
-
-
+export async function postSelectedAnswers(quizId:string, questionResponses: string[]){
+  const res = await request.post(`${rootUrl}/results/${quizId}`).send(questionResponses)
+  console.log('from client api functions')
+  console.log(res.body)
+  return res.body
+}
 
 export async function getResults(quizId: number) {
   const userAnswers = {
@@ -71,7 +81,7 @@ export async function getResults(quizId: number) {
     2: 'incorrect answer1',
     3: 'correct answer',
   }
-  const HTMLObject = await request.get(`${rootUrl}/questions/quiz/${quizId}`)
+  const HTMLObject = await request.post(`${rootUrl}/results/${quizId}`)
   const correctAnswers = HTMLObject.body
 
   const formattedCorrectAnswers = correctAnswers.map((object) => {

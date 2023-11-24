@@ -22,7 +22,6 @@ export interface QuizData {
 }
 
 export interface Answers {
-  questionId: number
   correctAnswer: string
 }
 
