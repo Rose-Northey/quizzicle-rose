@@ -8,26 +8,31 @@ import { useEffect, useState } from 'react'
 function QuizResult() {
   const quizId = Number(useParams().quizId)
  
+    const {
+      data: results,
+      isLoading,
+      isError,
+    } = useQuery({ queryKey: ['results'], queryFn: getResults})
+  
+    if (isLoading) {
+      return <div>Loading... </div>
+    }
+  
+    if (isError) {
+      return <div>Broekd!</div>
+    }
+  
+    const percentage = results.score*100/results.question_count
+    const roundPercent = percentage.toFixed(2)
 
-  const [results, setResults] = useState({})
-
-  // useEffect(() => {
-  //   async function fetchResults() {
-  //     // const resultsFromApi = await getResults(quizId)
-
-  //     // setResults(resultsFromApi)
-  //   }
-  //   fetchResults(quizId)
-  // }, [])
-  // // console.log(results?.score)
 
   return (
     <div>
       <h1>Quiz Results</h1>
       <p>
-        {/* You answered {`${results.score}`} out of {`${results.questionCount}`}{' '}
+        You answered {`${results.score}`} out of {`${results.question_count}`}{' '}
         questions correctly and scored{' '}
-        {`${(100 * Number(results.score)) / Number(results.question)}`}% */}
+        {`${roundPercent}`}%
       </p>
     </div>
   )
