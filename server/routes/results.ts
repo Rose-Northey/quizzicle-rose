@@ -4,16 +4,6 @@ import { insertQuestion } from '../db/questionsDb'
 
 const router = express.Router()
 
-
-
-
-
-
-
-
-
-
-// I need to hand this route the client selected answers
 // http://localhost:5173/api/v1/results/:quizId
 
 router.post('/:quizId', async (req, res) => {
@@ -24,17 +14,30 @@ router.post('/:quizId', async (req, res) => {
 
   try {
     const answersObj = await getCorrectAnswersByQuizId(quizId)
-    const answers = answersObj.map((obj)=>{
+    const correctAnswers = answersObj.map((obj)=>{
       return obj.correctAnswer
     })
 
-    console.log(answers)
-    if (!answers) {
+    const results ={
+      score: 0,
+      questionCount:0
+    }
+    correctAnswers.map((correctAnswer, index) => {
+      results.questionCount++
+      if (correctAnswer === selectedAnswers[index]) {
+        results.score++
+      }
+    })
+    console.log(results)
+
+
+   
+    if (!correctAnswers) {
       res.sendStatus(404)
       return
     }
 
-    res.json(answers)
+    res.json(correctAnswers)
 
   } catch (err) {
     console.log(err)

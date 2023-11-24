@@ -11,23 +11,23 @@ function QuizResult() {
 
   const [results, setResults] = useState({})
 
-  useEffect(() => {
-    async function fetchResults() {
-      const resultsFromApi = await getResults(quizId)
+  // useEffect(() => {
+  //   async function fetchResults() {
+  //     // const resultsFromApi = await getResults(quizId)
 
-      setResults(resultsFromApi)
-    }
-    fetchResults(quizId)
-  }, [])
-  // console.log(results?.score)
+  //     // setResults(resultsFromApi)
+  //   }
+  //   fetchResults(quizId)
+  // }, [])
+  // // console.log(results?.score)
 
   return (
     <div>
       <h1>Quiz Results</h1>
       <p>
-        You answered {`${results.score}`} out of {`${results.questionCount}`}{' '}
+        {/* You answered {`${results.score}`} out of {`${results.questionCount}`}{' '}
         questions correctly and scored{' '}
-        {`${(100 * Number(results.score)) / Number(results.question)}`}%
+        {`${(100 * Number(results.score)) / Number(results.question)}`}% */}
       </p>
     </div>
   )
