@@ -77,6 +77,13 @@ export async function calculateResults(quizId:string, questionResponses: string[
   return results
 }
 
+
+export async function getResults(){
+  const res = await request.get(`${rootUrl}/results`)
+  const results = res.body
+  return results
+}
+
 function logError(err: Error) {
   console.error('Error consuming the API (in client/api.js):', err.message)
 }
