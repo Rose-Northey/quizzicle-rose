@@ -1,7 +1,16 @@
 import express from 'express'
 import * as db from '../db/quizzes.ts'
+import { Answers } from '../../models/quiz.ts'
 
 const router = express.Router()
+
+function shuffleAnswers(answers:string[]){
+  let randomisation:any = answers.map((answer)=>{
+    return { answer, randomValue: Math.random() }}
+  )
+  randomisation.sort((element1:number|string, element2:number|string) => element2.randomValue - element1.randomValue)
+  return randomisation
+}
 
 // GET /api/v1/quizzes
 router.get('/', async (req, res) => {
@@ -15,19 +24,22 @@ router.get('/', async (req, res) => {
 
 router.get('/:quiz_id', async (req, res) => {
   const id = Number(req.params.quiz_id)
+// first create an object without the answer keys
+// create an array of the secure answers orderedAnswers
+// randomise an array of indexes [] 
+// randomise the order that the secure answers appear
 
   try {
     const quizDBData = await db.getSingleQuizQuestions(id)
-    const quizData = quizDBData.map((element) => {
-      const revisedQuestion = { ...element, answers: [] }
-      Object.keys(element).forEach((key) => {
-        if (key.match('Answer')) {
-          revisedQuestion.answers.push(element[key])
-          delete revisedQuestion[key]
-        }
-      })
-      revisedQuestion.answers.sort(() => Math.random() - Math.random())
-      return revisedQuestion
+    const quizData = quizDBData.map((question) => {
+      let secureQuizData = {
+        quizName: question.quizName,
+        quizId: question.quizId,
+        questionId: question.questionId,
+        questionText: question.questionText,
+        answers:[]
+      }
+
     })
     res.json(quizData)
   } catch (error) {

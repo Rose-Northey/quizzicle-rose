@@ -50,7 +50,6 @@ function Quiz() {
       console.error('An error occurred during submission:', error)
     }
   }
-  console.log(quizData)
 
   return (
     <>
