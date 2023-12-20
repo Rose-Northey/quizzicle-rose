@@ -22,12 +22,17 @@ export interface QuizData {
 }
 
 export interface Answers {
-  questionId: number
   correctAnswer: string
+  questionId: number
 }
 
 export interface NewQuizEntry {
   quizName: string
   lastUpdated: Date
   isPublic: boolean
+}
+
+export interface Results {
+  score: number
+  questionCount: number
 }

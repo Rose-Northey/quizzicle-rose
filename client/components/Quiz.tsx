@@ -1,40 +1,38 @@
-import { getSingleQuiz } from '../api'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { getSingleQuiz, calculateResults } from '../api'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Question } from '../../models/question'
-import { Routes, Route, useParams, useNavigate } from 'react-router-dom'
-import { Radio } from './Styled'
-
-interface SelectedAnswer {
-  questionId: string
-  selectedAnswer: string
-}
+import { Question, SelectedAnswer } from '../../models/question'
+import { useParams, useNavigate } from 'react-router-dom'
 
 function Quiz() {
+  const queryClient = useQueryClient()
+  const resultsMutation = useMutation({
+    mutationFn: calculateResults,
+    onSuccess: async (results) => {
+      queryClient.setQueryData(['results'], results)
+      navigate(`/${quizData[0].quizId}/my-result`)
+    },
+  })
   const navigate = useNavigate()
-  const [selectedAnswer, setSelectedAnswers] = useState({} as SelectedAnswer[])
-  // selectedAnswer = {quizId: quizData[0].quizId}
+  const [selectedAnswers, setSelectedAnswers] = useState([] as SelectedAnswer[])
+  const quizId = useParams().quizId as string
 
-  console.log(selectedAnswer)
-
-  const handleRadioOption1 = (evt) => {
+  const handleRadioOption = (evt, questionId: Question['questionId']) => {
     const answer = evt.target.value
-    const questionNumber = evt.target.id
-
-    setSelectedAnswers({ ...selectedAnswer, [questionNumber]: answer })
+    setSelectedAnswers({ ...selectedAnswers, [questionId]: answer })
   }
-
-  const { quizId } = useParams()
 
   const {
     data: quizData,
     isError,
     isLoading,
   } = useQuery({
-    queryKey: ['quizData'],
+    queryKey: ['quizData', quizId],
     queryFn: async () => {
       return await getSingleQuiz(quizId)
     },
+    staleTime: Infinity,
+    refetchOnMount: 'always',
   })
   if (isError) {
     return <p>Im broked</p>
@@ -43,46 +41,20 @@ function Quiz() {
   if (!quizData || isLoading) {
     return <p>Loading...</p>
   }
+
   const handleSubmit = async (evt: React.ChangeEvent<HTMLFormElement>) => {
     evt.preventDefault()
-    //if (Object.keys(selectedAnswer).length < quizData.length) {
     try {
-      // Make a POST request to the specified endpoint
-      // setSelectedAnswers({...selectedAnswer, quizId: quizData[0].quizId})
-      // const response = await fetch(
-      //   `api/v1/quizzes/${quizData[0].quizId}/my-result`,
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(selectedAnswer),
-      //   }
-      // )
-      // // Check if the request was successful (status code 2xx)
-      // if (response.ok) {
-      //   console.log('Successfully submitted answers')
-      navigate(`/${quizData[0].quizId}/my-result`)
-      // console.log("hey",response)
-      /*{
-          correctAnswers: response.body.correctAnswers,
-          totalAnswers: response.body.totalAnswers,
-        }*/
-      // Optionally, you can do something after a successful submission
-      // } else {
-      //   // Handle errors, e.g., log the error or show a user-friendly message
-      //   console.error('Failed to submit answers:', response.statusText)
-      // }
+      resultsMutation.mutate({ quizId, selectedAnswers })
     } catch (error) {
       console.error('An error occurred during submission:', error)
     }
   }
-  // add onchange and values for each field on form
-  console.log(quizData)
+
   return (
     <>
       <div>
-        <h1>{quizData[0].quizName}</h1>
+        <h1>{quizData[0]?.quizName}</h1>
 
         <form onSubmit={handleSubmit}>
           <ol>
@@ -90,20 +62,22 @@ function Quiz() {
               return (
                 <li key={question.questionId}>
                   {question.questionText}
-                  {question.answers.map((answer) => {
+                  {question.answers.map((answer, index) => {
+                    const answerItemId = `answer-${question.questionId}-${index}`
                     return (
                       answer?.length && (
                         <div key={`${answer}-answers`}>
                           <input
                             type="radio"
-                            id={`${question.questionId}`}
-                            name={question.questionText}
+                            id={answerItemId}
+                            name={`question-${question.questionId}`}
                             value={answer}
-                            onChange={handleRadioOption1}
+                            onChange={(e) => {
+                              handleRadioOption(e, question.questionId)
+                            }}
                             required
-                          ></input>
-                          <label>{answer}</label>
-                          <br />
+                          />
+                          <label htmlFor={answerItemId}>{answer}</label>
                         </div>
                       )
                     )
@@ -119,39 +93,3 @@ function Quiz() {
   )
 }
 export default Quiz
-
-// / {question.answers.map( answer => {
-//   return <label></label>
-//   <input type="radio" id='1' name="fav_language" value={answers[key]}></input>
-// })}
-
-// {
-//   /* method="post" action='/quizresultspage' */
-// }
-// {
-//   /*{quizData.map(quizElement => {
-//   <li>{quizElement.question_text}
-//     {Object.keys(element).forEach(key => {
-//       <input type="radio" id='1' name="fav_language" value={answers[key]}>
-//     <label for="javascript">JavaScript</label>
-//     })}
-
-//   </li>
-
-// })}
-// <button>Submit</button>
-// </form> */
-// }
-
-// const [results, setResults] = useState([])
-
-// const handleSubmit = (evt) => {
-//   evt.preventDefault()
-//   setResults([...results, results])
-// setNewScare({
-//   name: '',
-//   rating: '',
-//   origin: '',
-//   lastScare: '',
-// })
-// }

@@ -26,6 +26,7 @@ router.get('/:quiz_id', async (req, res) => {
           delete revisedQuestion[key]
         }
       })
+      revisedQuestion.answers.sort(() => Math.random() - Math.random())
       return revisedQuestion
     })
     res.json(quizData)

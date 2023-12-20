@@ -1,5 +1,5 @@
 import db from './connection.ts'
-import { QuestionData, QuestionSnakeCase } from '../../models/question'
+import { Question } from '../../models/question'
 import { Quiz, QuizData, Answers } from '../../models/quiz.ts'
 
 export async function getQuizzes(): Promise<Quiz[]> {
@@ -9,9 +9,7 @@ export async function getQuizzes(): Promise<Quiz[]> {
   )
 }
 
-export async function getSingleQuizQuestions(
-  id: number
-): Promise<QuestionSnakeCase[]> {
+export async function getSingleQuizQuestions(id: number): Promise<Question[]> {
   return await db('questions')
     .join('quizzes', 'quizzes.quiz_id', 'questions.quiz_id')
     .where('questions.quiz_id', id)
@@ -44,7 +42,6 @@ export async function addNewQuiz(quizData: QuizData): Promise<Quiz> {
 export async function getCorrectAnswersByQuizId(
   quizId: number
 ): Promise<Answers[]> {
-  // console.log(quizId)
   return db('questions')
     .where('quiz_id', quizId)
     .select('question_id as questionId', 'correct_answer as correctAnswer')

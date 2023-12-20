@@ -1,8 +1,11 @@
 import request from 'superagent'
-import { Question } from '../models/question'
+import { Question, SelectedAnswer } from '../models/question'
 import { Quiz, QuizData } from '../models/quiz'
 
 const rootUrl = '/api/v1'
+
+/////////////////////////////////////////////////////
+// Quizzes Apiz
 
 export async function getQuizzes() {
   try {
@@ -32,8 +35,11 @@ export async function AddQuiz({
   }
 }
 
-export async function getSingleQuiz(id: string): Promise<Question[]> {
-  const res = await request.get(rootUrl + '/quizzes/' + id)
+/////////////////////////////////////////////////////
+// QustionsApiz
+
+export async function getSingleQuiz(quizId: string): Promise<Question[]> {
+  const res = await request.get(rootUrl + '/quizzes/' + quizId)
   return res.body
 }
 
@@ -56,33 +62,21 @@ export async function getQuizName(quizId: string | undefined) {
   return response.body.quiz_name
 }
 
-export async function getAnswers(quizId: number) {
-  const userAnswers = {
-    1: 'incorrect answer3',
-    2: 'incorrect answer1',
-    3: 'correct answer',
-  }
-  const HTMLObject = await request.get(`${rootUrl}/questions/quiz/${quizId}`)
-  const correctAnswers = HTMLObject.body
+/////////////////////////////////////////////////////
+// Results Apis
 
-  const formattedCorrectAnswers = correctAnswers.map((object) => {
-    return object.correctAnswer
-  })
-
-  let score = 0
-  let questionCount = 0
-
-  const formattedUserAnswers = Object.values(userAnswers)
-
-  formattedCorrectAnswers.map((correctAnswer, index) => {
-    questionCount++
-    if (correctAnswer === formattedUserAnswers[index]) {
-      score++
-    }
-  })
-  const resultObj = { score, questionCount }
-  // console.log(resultObj)
-  return resultObj
+export async function calculateResults({
+  quizId,
+  selectedAnswers,
+}: {
+  quizId: string
+  selectedAnswers: SelectedAnswer[]
+}) {
+  const res = await request
+    .post(`${rootUrl}/results/${quizId}`)
+    .send(selectedAnswers)
+  const results = res.body
+  return results
 }
 
 function logError(err: Error) {

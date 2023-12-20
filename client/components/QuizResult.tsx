@@ -1,38 +1,38 @@
 //import thingy
 import { useQuery } from '@tanstack/react-query'
-import server from '../../server/server'
-import { useFetcher, useParams } from 'react-router-dom'
-import { getAnswers } from '../api'
-import { useEffect, useState } from 'react'
 
 function QuizResult() {
-  const quizId = Number(useParams().quizId)
- 
+  const {
+    data: results,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['results'],
+    queryFn: () => {},
+    staleTime: Infinity,
+  })
 
-  const [results, setResults] = useState({})
+  if (!results || isLoading) {
+    return <div>No results</div>
+  }
 
-  useEffect(() => {
-    async function fetchResults() {
-      const resultsFromApi = await getAnswers(quizId)
+  if (isError) {
+    return <div>Broekd!</div>
+  }
 
-      setResults(resultsFromApi)
-    }
-    fetchResults(quizId)
-  }, [])
-  console.log(results?.score)
+  const percentage = (results?.score * 100) / results?.questionCount
+  const roundPercent = percentage.toFixed(2)
 
   return (
     <div>
       <h1>Quiz Results</h1>
       <p>
-        You answered {`${results.score}`} out of {`${results.questionCount}`}{' '}
-        questions correctly and scored{' '}
-        {`${(100 * Number(results.score)) / Number(results.question)}`}%
+        You answered {`${results?.score}` || 0} out of{' '}
+        {`${results?.questionCount}` || 0} questions correctly and scored{' '}
+        {`${roundPercent}`}%
       </p>
     </div>
   )
 }
 
 export default QuizResult
-
-// {score: 1, questionCount: 3}
