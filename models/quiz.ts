@@ -1,3 +1,5 @@
+import { Interface } from "readline/promises"
+
 export interface QuizSnakeCase {
   quiz_id: number
   quiz_name: string
@@ -35,4 +37,20 @@ export interface NewQuizEntry {
 export interface Results {
   score: number
   questionCount: number
+}
+
+export interface Randomization {
+  answerType: string
+  randomNumber: number
+}
+
+export interface QuestionData{
+  quizName: string
+  quizId: number
+  questionId: number
+  questionText: string
+  correctAnswer: string
+  incorrectAnswer1: string
+  incorrectAnswer2?: string
+  incorrectAnswer3?: string
 }

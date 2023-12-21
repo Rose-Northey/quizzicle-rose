@@ -51,6 +51,8 @@ function Quiz() {
     }
   }
 
+  // console.log(quizData)
+
   return (
     <>
       <div>
