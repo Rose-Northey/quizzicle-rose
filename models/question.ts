@@ -17,6 +17,9 @@ export interface Question {
 }
 
 export interface QuestionData {
+  quizName: string
+  quizId:number
+  questionId:number
   questionText: string
   correctAnswer: string
   incorrectAnswer1: string
@@ -25,7 +28,7 @@ export interface QuestionData {
 }
 
 export interface QuizData {
-  quizID:
+  quizID: number
   questionText: string
   correctAnswer: string
   incorrectAnswer1: string

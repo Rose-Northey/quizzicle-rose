@@ -40,17 +40,7 @@ export interface Results {
 }
 
 export interface Randomization {
-  answerType: string
-  randomNumber: number
+  answerKey: string;
+  randomNumber: number;
 }
 
-export interface QuestionData{
-  quizName: string
-  quizId: number
-  questionId: number
-  questionText: string
-  correctAnswer: string
-  incorrectAnswer1: string
-  incorrectAnswer2?: string
-  incorrectAnswer3?: string
-}
