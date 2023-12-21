@@ -17,6 +17,30 @@ export interface Question {
 }
 
 export interface QuestionData {
+  quizName: string
+  quizId:number
+  questionId:number
+  questionText: string
+  correctAnswer: string
+  incorrectAnswer1: string
+  incorrectAnswer2?: string
+  incorrectAnswer3?: string
+}
+
+export interface Question{
+  quizName?: string | undefined
+  quizId:number
+  questionId:number
+  questionText: string
+  correctAnswer: string
+  incorrectAnswer1: string
+  incorrectAnswer2?: string
+  incorrectAnswer3?: string
+}
+
+
+export interface QuizData {
+  quizID: number
   questionText: string
   correctAnswer: string
   incorrectAnswer1: string
@@ -26,4 +50,12 @@ export interface QuestionData {
 
 export interface SelectedAnswer {
   [key: number]: string
+}
+
+export interface Text{
+  questionText: string
+  correctAnswer: string
+  incorrectAnswer1: string
+  incorrectAnswer2: string
+  incorrectAnswer3: string
 }

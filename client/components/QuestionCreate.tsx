@@ -1,10 +1,17 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Question } from '../../models/question'
+import { Question, Text} from '../../models/question'
 import { addQuestion, getQuizName } from '../api'
 function QuestionCreate() {
-  const [text, setText] = useState({} as Question)
+  const [text, setText] = useState({
+    questionText: '',
+    correctAnswer: '',
+    incorrectAnswer1: '',
+    incorrectAnswer2: '',
+    incorrectAnswer3: '',
+  }as Text)
+
   const params = useParams()
 
   const {
@@ -20,6 +27,7 @@ function QuestionCreate() {
 
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+
   const addQuestionMutation = useMutation({
     mutationFn: addQuestion,
     onSuccess: async () => {
@@ -30,7 +38,7 @@ function QuestionCreate() {
         incorrectAnswer1: '',
         incorrectAnswer2: '',
         incorrectAnswer3: '',
-      } as Question)
+      })
     },
   })
 
@@ -42,12 +50,15 @@ function QuestionCreate() {
   }
   function handleChange(e: { target: { id: string; value: string } }) {
     const key = e.target.id
+    // key is the incorrectAnswer1, correct answer etc
+    // therefore this changes the text object under the correct key
     const stateObj = {
       ...text,
       [key]: e.target.value,
     }
     setText(stateObj)
   }
+
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault()
     addQuestionMutation.mutate({ quiz_id: params.quizId, text })

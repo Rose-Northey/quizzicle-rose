@@ -1,3 +1,5 @@
+import { Interface } from "readline/promises"
+
 export interface QuizSnakeCase {
   quiz_id: number
   quiz_name: string
@@ -36,3 +38,9 @@ export interface Results {
   score: number
   questionCount: number
 }
+
+export interface Randomization {
+  answerKey: string;
+  randomNumber: number;
+}
+

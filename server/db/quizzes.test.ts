@@ -28,7 +28,6 @@ describe('get of a quiz and all of its questions, questions pushed into an answe
     ]
 
     const testQuizData = await getSingleQuizQuestions(1)
-    console.log(testQuizData)
     expect(mockQuizData[0].quiz_id).toEqual(testQuizData[0].quizId)
   })
 

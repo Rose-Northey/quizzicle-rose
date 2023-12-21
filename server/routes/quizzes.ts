@@ -1,7 +1,26 @@
 import express from 'express'
 import * as db from '../db/quizzes.ts'
-
+import { Randomization} from '../../models/quiz.ts'
+import { QuestionData, Question, QuizData} from '../../models/question.ts'
 const router = express.Router()
+
+function shuffleAnswers(question:QuestionData):string[]{
+ const answerKeyArray = ['correctAnswer', 'incorrectAnswer1','incorrectAnswer2',
+  'incorrectAnswer3']
+  let randomization:Randomization[]= answerKeyArray.map((answerKey)=>{
+    return { answerKey: answerKey, randomNumber: Math.random() }}
+  )
+  randomization.sort((element1:Randomization, element2:Randomization) => 
+    element2.randomNumber - element1.randomNumber
+  )
+  // randomised actual answers according to the above array order
+  let randomizedAnswerArray = randomization.map((randomAnswerKey)=>{
+    return question[randomAnswerKey.answerKey]
+  })
+  // filter out the blank values
+  randomizedAnswerArray = randomizedAnswerArray.filter(value => value !== '');
+  return randomizedAnswerArray
+}
 
 // GET /api/v1/quizzes
 router.get('/', async (req, res) => {
@@ -17,18 +36,18 @@ router.get('/:quiz_id', async (req, res) => {
   const id = Number(req.params.quiz_id)
 
   try {
-    const quizDBData = await db.getSingleQuizQuestions(id)
-    const quizData = quizDBData.map((element) => {
-      const revisedQuestion = { ...element, answers: [] }
-      Object.keys(element).forEach((key) => {
-        if (key.match('Answer')) {
-          revisedQuestion.answers.push(element[key])
-          delete revisedQuestion[key]
-        }
-      })
-      revisedQuestion.answers.sort(() => Math.random() - Math.random())
-      return revisedQuestion
+    const quizDBData: Question[] = await db.getSingleQuizQuestions(id)
+
+    const quizData: QuizData[] = quizDBData.map((question: Question[]) => {
+        return (
+         { quizName: question.quizName,
+        quizId: question.quizId,
+        questionId: question.questionId,
+        questionText: question.questionText,
+        answers:shuffleAnswers(question)}
+        )
     })
+
     res.json(quizData)
   } catch (error) {
     console.log(error)

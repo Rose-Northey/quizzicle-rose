@@ -1,5 +1,5 @@
 import db from './connection.ts'
-import { Question } from '../../models/question'
+import { QuestionData } from '../../models/question'
 import { Quiz, QuizData, Answers } from '../../models/quiz.ts'
 
 export async function getQuizzes(): Promise<Quiz[]> {
@@ -9,7 +9,7 @@ export async function getQuizzes(): Promise<Quiz[]> {
   )
 }
 
-export async function getSingleQuizQuestions(id: number): Promise<Question[]> {
+export async function getSingleQuizQuestions(id: number): Promise<QuestionData[]> {
   return await db('questions')
     .join('quizzes', 'quizzes.quiz_id', 'questions.quiz_id')
     .where('questions.quiz_id', id)

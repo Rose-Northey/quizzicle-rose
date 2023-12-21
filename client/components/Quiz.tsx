@@ -51,6 +51,8 @@ function Quiz() {
     }
   }
 
+
+
   return (
     <>
       <div>
@@ -64,8 +66,8 @@ function Quiz() {
                   {question.questionText}
                   {question.answers.map((answer, index) => {
                     const answerItemId = `answer-${question.questionId}-${index}`
+                    if(answer!="" && answer!=null){
                     return (
-                      answer?.length && (
                         <div key={`${answer}-answers`}>
                           <input
                             type="radio"
@@ -79,8 +81,8 @@ function Quiz() {
                           />
                           <label htmlFor={answerItemId}>{answer}</label>
                         </div>
-                      )
                     )
+                          }
                   })}
                 </li>
               )
