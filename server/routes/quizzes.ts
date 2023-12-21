@@ -1,18 +1,15 @@
 import express from 'express'
 import * as db from '../db/quizzes.ts'
-import { Answers, Randomization} from '../../models/quiz.ts'
-import { QuestionData } from '../../models/question.ts'
-import { QueryObserverOptions } from '@tanstack/react-query'
+import { Randomization} from '../../models/quiz.ts'
+import { QuestionData, Question, QuizData} from '../../models/question.ts'
 const router = express.Router()
 
 function shuffleAnswers(question:QuestionData):string[]{
-  console.log(question)
  const answerKeyArray = ['correctAnswer', 'incorrectAnswer1','incorrectAnswer2',
   'incorrectAnswer3']
   let randomization:Randomization[]= answerKeyArray.map((answerKey)=>{
     return { answerKey: answerKey, randomNumber: Math.random() }}
   )
-  console.log(randomization)
   randomization.sort((element1:Randomization, element2:Randomization) => 
     element2.randomNumber - element1.randomNumber
   )
@@ -22,7 +19,6 @@ function shuffleAnswers(question:QuestionData):string[]{
   })
   // filter out the blank values
   randomizedAnswerArray = randomizedAnswerArray.filter(value => value !== '');
-  console.log(randomizedAnswerArray)
   return randomizedAnswerArray
 }
 
@@ -40,10 +36,9 @@ router.get('/:quiz_id', async (req, res) => {
   const id = Number(req.params.quiz_id)
 
   try {
-    const quizDBData = await db.getSingleQuizQuestions(id)
-    console.log(quizDBData)
+    const quizDBData: Question[] = await db.getSingleQuizQuestions(id)
 
-    const quizData = quizDBData.map((question) => {
+    const quizData: QuizData[] = quizDBData.map((question: Question[]) => {
         return (
          { quizName: question.quizName,
         quizId: question.quizId,
