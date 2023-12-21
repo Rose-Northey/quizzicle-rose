@@ -4,12 +4,6 @@ import { Answers, Randomization} from '../../models/quiz.ts'
 import { QuestionData } from '../../models/question.ts'
 import { QueryObserverOptions } from '@tanstack/react-query'
 const router = express.Router()
-// create a model for quiz data
-// first create an array of objects of keys () and random numbers
-// then sort the objects by random number value
-// then use the indexes to access the particular 
-
-
 
 function shuffleAnswers(question:QuestionData):string[]{
   console.log(question)
@@ -50,18 +44,13 @@ router.get('/:quiz_id', async (req, res) => {
     console.log(quizDBData)
 
     const quizData = quizDBData.map((question) => {
-      console.log('this is the question data')
-      // console.log(question)
-    
-      let shuffledAnswers = shuffleAnswers(question)
-
-      // let secureQuizData = {
-      //   quizName: question.quizName,
-      //   quizId: question.quizId,
-      //   questionId: question.questionId,
-      //   questionText: question.questionText,
-      //   answers:[]}
-      
+        return (
+         { quizName: question.quizName,
+        quizId: question.quizId,
+        questionId: question.questionId,
+        questionText: question.questionText,
+        answers:shuffleAnswers(question)}
+        )
     })
 
     res.json(quizData)
