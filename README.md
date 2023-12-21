@@ -2,6 +2,8 @@
 
 Quizzicle is an app for building quizzes. Or is it? That depends on you.
 
+See the [design files](https://www.figma.com/file/Pb1u7ar3ScfMNt2qBC7Sh1/Site-design?type=design&node-id=16%3A141&mode=design&t=YqkCq87VhzHyipiu-1)
+http://localhost:5173/
 ## Definition of done
 
 The standard of quality will likely be higher for this project than ones you've done in the past. In order for your code to be merged:

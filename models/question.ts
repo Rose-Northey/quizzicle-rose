@@ -11,6 +11,15 @@ export interface QuestionSnakeCase {
 export interface Question {
   questionId: number
   quizId: number
+  quizName?: string
+  questionText: string
+  answers: string[]
+}
+
+export interface QuestionData {
+  quizName: string
+  quizId:number
+  questionId:number
   questionText: string
   correctAnswer: string
   incorrectAnswer1: string
@@ -18,11 +27,35 @@ export interface Question {
   incorrectAnswer3?: string
 }
 
-export interface QuestionData {
-  quizId: number
+export interface Question{
+  quizName?: string | undefined
+  quizId:number
+  questionId:number
   questionText: string
   correctAnswer: string
   incorrectAnswer1: string
   incorrectAnswer2?: string
   incorrectAnswer3?: string
+}
+
+
+export interface QuizData {
+  quizID: number
+  questionText: string
+  correctAnswer: string
+  incorrectAnswer1: string
+  incorrectAnswer2?: string
+  incorrectAnswer3?: string
+}
+
+export interface SelectedAnswer {
+  [key: number]: string
+}
+
+export interface Text{
+  questionText: string
+  correctAnswer: string
+  incorrectAnswer1: string
+  incorrectAnswer2: string
+  incorrectAnswer3: string
 }

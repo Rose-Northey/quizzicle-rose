@@ -28,7 +28,7 @@ h1, h2, h3, h4 {
 }
 
 a {
-  color: var(--berry)
+  color: var(--berry);
 }
 
 main, header > div {
@@ -54,4 +54,85 @@ header {
   button:nth-child(n + 1) {
     margin-left: 10px;
   }
+}
+
+ul.ulQuizName {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+  text-indent: 10px;
+  line-height: 30px;
+  font-size: .875rem;
+  font-style: bold var(--midnight);;
+  a {
+    color: var(--midnight);
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+nav {
+  max-width: 920px;
+  margin: 0 auto;
+  display: flex;
+  a {
+    text-decoration: none;
+    color: var(--pine);
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 10px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+hr {
+  border-top: 2px dashed var(--midnight);
+  margin: 0 0 1rem;
+}
+
+.vflex{
+  display: flex;
+  flex-direction: column;
+
+}
+
+.nameInput{
+  width: 50%;
+  margin-top: 0.3rem;
+}
+
+.vflex button{
+  align-self: flex-start;
+}
+
+.create button, .create label{
+  margin: 0.5rem;
+}
+
+.error{
+  margin: 0.2rem;
+  font-size: small;
+  color: var(--berry)
+}
+
+.hidden{
+  visibility: hidden;
+}
+
+.create button{
+  
+  background-color: var(--marine);
+  padding: 0.8rem;
+  border-radius: 5px;
+  box-shadow: none;
+  border-style: none;
+  color: var(--cream)
+
+}
+
+.create input[type="checkbox" i] {
+  margin:none;
+  border-radius: 0;
 }
